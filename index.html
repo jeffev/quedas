@@ -135,6 +135,17 @@
       transition: opacity 0.15s;
     }
     #refreshBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+    #clearBtn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.15s;
+    }
+    #clearBtn:hover { color: var(--red); border-color: var(--red); }
 
     #status {
       color: var(--muted);
@@ -282,6 +293,7 @@
     <button class="period-btn" data-p="2y">2 anos</button>
     <button class="period-btn" data-p="5y">5 anos</button>
     <button id="refreshBtn">↻ Atualizar</button>
+    <button id="clearBtn" title="Apagar lista salva e voltar ao padrão">✕ Limpar salvo</button>
   </div>
 
   <p id="status"></p>
@@ -463,6 +475,7 @@ async function load() {
   busy = true;
   $('refreshBtn').disabled = true;
   updateShareLink(tickers);
+  localStorage.setItem('quedas_tickers', $('tickerInput').value.trim());
 
   const items = tickers.map(t => ({ ticker: t, loading: true }));
   renderGrid(items);
@@ -506,7 +519,16 @@ async function init() {
     return;
   }
 
-  // Sem URL — tenta carregar o arquivo padrão do repositório
+  // Lista salva pelo usuário tem prioridade sobre o arquivo padrão
+  const saved = localStorage.getItem('quedas_tickers');
+  if (saved) {
+    $('tickerInput').value = saved;
+    $('status').textContent = 'Lista restaurada do histórico.';
+    load();
+    return;
+  }
+
+  // Sem nada salvo — carrega o arquivo padrão do repositório
   try {
     const r = await fetch('./tickers.txt?v=' + Date.now());
     if (r.ok) {
@@ -533,6 +555,18 @@ document.querySelectorAll('.period-btn').forEach(btn => {
 });
 
 $('refreshBtn').addEventListener('click', load);
+
+$('clearBtn').addEventListener('click', async () => {
+  localStorage.removeItem('quedas_tickers');
+  try {
+    const r = await fetch('./tickers.txt?v=' + Date.now());
+    if (r.ok) $('tickerInput').value = (await r.text()).trim();
+    else $('tickerInput').value = '';
+  } catch (_) { $('tickerInput').value = ''; }
+  $('status').textContent = 'Lista salva removida — exibindo lista padrão.';
+  $('grid').innerHTML = '';
+  $('shareLink').value = '';
+});
 
 $('copyBtn').addEventListener('click', async () => {
   try {
