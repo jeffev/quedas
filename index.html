@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quedas do Topo</title>
+  <style>
+    :root {
+      --bg:     #0f1117;
+      --card:   #1a1d27;
+      --border: #252836;
+      --text:   #e2e8f0;
+      --muted:  #64748b;
+      --accent: #6366f1;
+      --green:  #22c55e;
+      --yellow: #eab308;
+      --orange: #f97316;
+      --red:    #ef4444;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 28px 20px 60px;
+    }
+    header { max-width: 980px; margin: 0 auto 28px; }
+    header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
+    header p  { color: var(--muted); font-size: 0.875rem; }
+
+    .wrap { max-width: 980px; margin: 0 auto; }
+
+    textarea {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: ui-monospace, monospace;
+      font-size: 0.875rem;
+      padding: 12px;
+      resize: vertical;
+      min-height: 72px;
+      transition: border-color 0.15s;
+    }
+    textarea:focus { outline: none; border-color: var(--accent); }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .lbl { font-size: 0.8rem; color: var(--muted); }
+
+    .period-btn {
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.825rem;
+      transition: all 0.15s;
+    }
+    .period-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .period-btn:hover:not(.active) { color: var(--text); border-color: var(--muted); }
+
+    #refreshBtn {
+      margin-left: auto;
+      padding: 7px 20px;
+      background: var(--accent);
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    #refreshBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    #status {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin: 16px 0 20px;
+      min-height: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      transition: border-color 0.2s;
+    }
+    .card:hover:not(.loading) { border-color: #3a3d5e; }
+    .card.loading { animation: pulse 1.4s ease-in-out infinite; }
+    .card.has-error { border-color: #3a1f1f; }
+
+    @keyframes pulse { 0%,100%{opacity:.65} 50%{opacity:.3} }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 4px;
+    }
+    .cticker {
+      font-size: 1.05rem;
+      font-weight: 700;
+      font-family: ui-monospace, monospace;
+      letter-spacing: .5px;
+    }
+    .cdrop {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+    .cname {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .bar-track {
+      height: 5px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+    .bar-fill { height: 100%; border-radius: 3px; transition: width .6s ease; }
+    .cprices {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .cprices .cur { color: var(--text); font-weight: 600; }
+    .cerror { font-size: 0.75rem; color: var(--red); margin-top: 6px; }
+
+    .share-row { display: flex; gap: 8px; margin-top: 24px; align-items: center; }
+    .share-input {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      padding: 8px 12px;
+      font-size: 0.775rem;
+      font-family: ui-monospace, monospace;
+    }
+    .copy-btn {
+      padding: 8px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.775rem;
+      white-space: nowrap;
+      transition: border-color 0.15s;
+    }
+    .copy-btn:hover { border-color: var(--accent); }
+
+    @media (max-width: 480px) {
+      .cdrop { font-size: 1.3rem; }
+      #refreshBtn { margin-left: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>📉 Quedas do Topo</h1>
+  <p>ações favoritas ordenadas pela queda desde o pico do período</p>
+</header>
+
+<div class="wrap">
+  <textarea id="tickerInput" placeholder="Ex: WEGE3, AGRO3, BBAS3, AAPL, MELI"></textarea>
+  <div class="row">
+    <span class="lbl">Período:</span>
+    <button class="period-btn" data-p="6mo">6 meses</button>
+    <button class="period-btn active" data-p="1y">1 ano</button>
+    <button class="period-btn" data-p="2y">2 anos</button>
+    <button class="period-btn" data-p="5y">5 anos</button>
+    <button id="refreshBtn">↻ Atualizar</button>
+  </div>
+
+  <p id="status"></p>
+  <div class="grid" id="grid"></div>
+
+  <div class="share-row">
+    <input class="share-input" id="shareLink" readonly placeholder="link de compartilhamento">
+    <button class="copy-btn" id="copyBtn">Copiar link</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+let period = '1y';
+let busy   = false;
+
+// ── utils ──────────────────────────────────────────────────────────────────
+
+const $    = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function normalizeTicker(raw) {
+  const t = raw.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (!t) return null;
+  // Padrão de ação brasileira: 4 letras + 1-2 dígitos + opcional B/F
+  if (/^[A-Z]{4}\d{1,2}[BF]?$/.test(t)) return t + '.SA';
+  return t;
+}
+
+function parseTickers(text) {
+  return [...new Set(
+    text.split(/[\s,;|\n]+/)
+        .map(normalizeTicker)
+        .filter(Boolean)
+  )];
+}
+
+const display = ticker => ticker.replace('.SA', '');
+
+function dropStyle(pct) {
+  if (pct >= -5)  return '#22c55e';
+  if (pct >= -15) return '#eab308';
+  if (pct >= -30) return '#f97316';
+  return '#ef4444';
+}
+
+function fmt(price, currency) {
+  if (currency === 'BRL') return 'R$ ' + price.toFixed(2).replace('.', ',');
+  return '$ ' + price.toFixed(2);
+}
+
+// ── API ────────────────────────────────────────────────────────────────────
+
+async function fetchJSON(url) {
+  const proxies = [
+    // allorigins: envolve resposta em { contents: "..." }
+    async () => {
+      const r = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+      if (!r.ok) throw new Error('allorigins falhou');
+      const w = await r.json();
+      if (!w.contents) throw new Error('allorigins sem conteúdo');
+      return JSON.parse(w.contents);
+    },
+    // thingproxy: proxy transparente, gratuito
+    async () => {
+      const r = await fetch(`https://thingproxy.freeboard.io/fetch/${url}`);
+      if (!r.ok) throw new Error('thingproxy falhou');
+      return r.json();
+    },
+    // codetabs: proxy transparente, gratuito
+    async () => {
+      const r = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`);
+      if (!r.ok) throw new Error('codetabs falhou');
+      return r.json();
+    },
+  ];
+
+  for (const proxy of proxies) {
+    try { return await proxy(); } catch (_) {}
+  }
+  throw new Error('Todos os proxies falharam — tente novamente mais tarde');
+}
+
+async function fetchStock(ticker, p) {
+  const url  = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=${p}&interval=1d`;
+  const data = await fetchJSON(url);
+
+  if (!data?.chart?.result?.[0]) {
+    throw new Error(data?.chart?.error?.description || 'Ticker não encontrado');
+  }
+
+  const res    = data.chart.result[0];
+  const meta   = res.meta;
+  const closes = (res.indicators?.quote?.[0]?.close ?? []).filter(v => v != null);
+
+  if (!closes.length) throw new Error('Sem dados históricos');
+
+  const current = meta.regularMarketPrice;
+  const peak    = Math.max(...closes);
+  const drop    = ((current - peak) / peak) * 100;
+
+  return {
+    ticker,
+    name:      meta.shortName || meta.longName || ticker,
+    current,
+    peak,
+    drop,
+    pctOfPeak: (current / peak) * 100,
+    currency:  meta.currency || 'USD',
+    ok:        true,
+  };
+}
+
+// ── render ─────────────────────────────────────────────────────────────────
+
+function cardHTML(item) {
+  const d = display(item.ticker);
+
+  if (item.loading) return `
+    <div class="card loading">
+      <div class="card-top">
+        <span class="cticker">${d}</span>
+        <span class="cdrop" style="color:var(--border)">—</span>
+      </div>
+      <div class="cname">carregando…</div>
+      <div class="bar-track"><div class="bar-fill" style="width:40%;background:var(--border)"></div></div>
+    </div>`;
+
+  if (item.error) return `
+    <div class="card has-error">
+      <div class="card-top"><span class="cticker">${d}</span></div>
+      <div class="cerror">${item.error}</div>
+    </div>`;
+
+  const color = dropStyle(item.drop);
+  const width = Math.max(2, item.pctOfPeak).toFixed(1);
+
+  return `
+    <div class="card">
+      <div class="card-top">
+        <span class="cticker">${d}</span>
+        <span class="cdrop" style="color:${color}">${item.drop.toFixed(1)}%</span>
+      </div>
+      <div class="cname" title="${item.name}">${item.name}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${width}%;background:${color}"></div>
+      </div>
+      <div class="cprices">
+        <span class="cur">${fmt(item.current, item.currency)}</span>
+        <span>topo: ${fmt(item.peak, item.currency)}</span>
+      </div>
+    </div>`;
+}
+
+function renderGrid(items) {
+  const sorted = [...items].sort((a, b) => {
+    // carregando por último; erro antes dos carregando, depois dos ok
+    if (a.loading  && !b.loading)  return 1;
+    if (!a.loading &&  b.loading)  return -1;
+    if (a.error    && !b.error)    return 1;
+    if (!a.error   &&  b.error)    return -1;
+    return a.drop - b.drop; // mais caído primeiro (mais negativo = primeiro)
+  });
+  $('grid').innerHTML = sorted.map(cardHTML).join('');
+}
+
+// ── carga principal ────────────────────────────────────────────────────────
+
+async function load() {
+  if (busy) return;
+
+  const tickers = parseTickers($('tickerInput').value);
+  if (!tickers.length) {
+    $('status').textContent = 'Nenhum ticker encontrado.';
+    return;
+  }
+
+  busy = true;
+  $('refreshBtn').disabled = true;
+  updateShareLink(tickers);
+
+  const items = tickers.map(t => ({ ticker: t, loading: true }));
+  renderGrid(items);
+
+  for (let i = 0; i < tickers.length; i++) {
+    $('status').textContent =
+      `Carregando ${display(tickers[i])} (${i + 1}/${tickers.length})…`;
+    try {
+      items[i] = await fetchStock(tickers[i], period);
+    } catch (e) {
+      items[i] = { ticker: tickers[i], error: e.message };
+    }
+    renderGrid(items);
+    if (i < tickers.length - 1) await sleep(350);
+  }
+
+  $('status').textContent =
+    `Atualizado em ${new Date().toLocaleTimeString('pt-BR')} · ${tickers.length} ações`;
+  busy = false;
+  $('refreshBtn').disabled = false;
+}
+
+// ── link de compartilhamento ───────────────────────────────────────────────
+
+function updateShareLink(tickers) {
+  const raw = tickers.map(display).join(',');
+  const url = `${location.origin}${location.pathname}?t=${encodeURIComponent(raw)}`;
+  $('shareLink').value = url;
+}
+
+// ── inicialização ──────────────────────────────────────────────────────────
+
+async function init() {
+  const params = new URLSearchParams(location.search);
+  const t      = params.get('t');
+
+  if (t) {
+    // Lista veio pela URL — usa diretamente
+    $('tickerInput').value = t.split(',').map(s => s.trim()).join(', ');
+    load();
+    return;
+  }
+
+  // Sem URL — tenta carregar o arquivo padrão do repositório
+  try {
+    const r = await fetch('./tickers.txt?v=' + Date.now());
+    if (r.ok) {
+      $('tickerInput').value = (await r.text()).trim();
+      load();
+    } else {
+      $('status').textContent = 'Digite os tickers acima e clique em Atualizar.';
+    }
+  } catch (_) {
+    $('status').textContent = 'Digite os tickers acima e clique em Atualizar.';
+  }
+}
+
+// ── eventos ────────────────────────────────────────────────────────────────
+
+document.querySelectorAll('.period-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.period-btn')
+            .forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    period = btn.dataset.p;
+    load();
+  });
+});
+
+$('refreshBtn').addEventListener('click', load);
+
+$('copyBtn').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText($('shareLink').value);
+    $('copyBtn').textContent = '✓ Copiado!';
+    setTimeout(() => { $('copyBtn').textContent = 'Copiar link'; }, 2000);
+  } catch (_) {}
+});
+
+init();
+</script>
+</body>
+</html>
