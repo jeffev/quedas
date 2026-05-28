@@ -28,6 +28,61 @@
     header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
     header p  { color: var(--muted); font-size: 0.875rem; }
 
+    .about {
+      max-width: 980px;
+      margin: 0 auto 32px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+    .about h2 { font-size: 0.95rem; font-weight: 600; margin-bottom: 12px; color: var(--text); }
+    .about p  { font-size: 0.845rem; color: var(--muted); line-height: 1.65; margin-bottom: 10px; }
+    .about p:last-child { margin-bottom: 0; }
+    .about strong { color: var(--text); font-weight: 600; }
+    .legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    details summary {
+      cursor: pointer;
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-top: 12px;
+      user-select: none;
+    }
+    details summary:hover { text-decoration: underline; }
+    details .extra {
+      margin-top: 10px;
+      font-size: 0.835rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    details .extra code {
+      background: var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-family: ui-monospace, monospace;
+      font-size: 0.8rem;
+      color: var(--text);
+    }
+
     .wrap { max-width: 980px; margin: 0 auto; }
 
     textarea {
@@ -186,6 +241,37 @@
   <h1>📉 Quedas do Topo</h1>
   <p>ações favoritas ordenadas pela queda desde o pico do período</p>
 </header>
+
+<div class="about">
+  <h2>O que é isso?</h2>
+  <p>
+    Uma ferramenta para investidores que já têm uma <strong>lista de ações favoritas</strong>
+    e querem saber quais estão mais distantes do seu topo recente —
+    ou seja, quais sofreram as maiores quedas e podem representar uma oportunidade de entrada.
+  </p>
+  <p>
+    Para cada ação, o app busca o <strong>preço mais alto do período selecionado</strong>
+    e calcula quanto o preço atual está abaixo desse pico.
+    As ações são exibidas ordenadas da <strong>maior queda para a menor</strong>.
+  </p>
+  <div class="legend">
+    <span class="legend-item"><span class="dot" style="background:#22c55e"></span>queda até 5% — próximo do topo</span>
+    <span class="legend-item"><span class="dot" style="background:#eab308"></span>queda até 15%</span>
+    <span class="legend-item"><span class="dot" style="background:#f97316"></span>queda até 30%</span>
+    <span class="legend-item"><span class="dot" style="background:#ef4444"></span>queda acima de 30%</span>
+  </div>
+  <details>
+    <summary>Como usar</summary>
+    <div class="extra">
+      <p>1. <strong>Digite os tickers</strong> no campo abaixo separados por vírgula.
+         Ações brasileiras (ex: <code>WEGE3</code>) são detectadas automaticamente.
+         Ações americanas use o símbolo direto (ex: <code>AAPL</code>).</p>
+      <p>2. <strong>Escolha o período</strong> — o topo será calculado dentro dessa janela de tempo.</p>
+      <p>3. <strong>Compartilhe</strong> sua lista pelo link gerado na parte de baixo da página.
+         Quem abrir o link verá exatamente as mesmas ações.</p>
+    </div>
+  </details>
+</div>
 
 <div class="wrap">
   <textarea id="tickerInput" placeholder="Ex: WEGE3, AGRO3, BBAS3, AAPL, MELI"></textarea>
