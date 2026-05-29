@@ -362,6 +362,10 @@
     }
     .list-table thead th.sortable:hover { color: var(--text); }
     .list-table thead th.sort-active { color: var(--accent); }
+    .list-table thead th.th-ticker {
+      position: sticky; left: 0; z-index: 3;
+      background: var(--card);
+    }
 
     .list-table tbody tr {
       border-bottom: 1px solid var(--border);
@@ -1053,7 +1057,7 @@ async function renderTable(items) {
 
   // [cls, sortId, label]  — sortId='' means not sortable
   const baseCols = [
-    ['',        '',         'Ticker'],
+    ['th-ticker', '',       'Ticker'],
     ['th-left', '',         'Nome'],
     ['',        '',         'Preço'],
     ['',        'day',      'Dia'],
@@ -1203,9 +1207,14 @@ function exportCSV() {
   const items = currentItems.filter(i => i.ok);
   if (!items.length) return;
 
+  const hasFund = items.some(i => fundamentalsCache[i.ticker]?.data);
   const hasPos  = items.some(i => computeMetrics(i));
+
   const headers = ['Ticker','Nome','Moeda','Preço Atual','Topo','Queda do Topo (%)','Var. Dia (%)'];
-  if (hasPos) headers.push('Qtd','Preço Médio','Valor Investido','Valor Atual','P&L','P&L (%)');
+  if (hasFund) headers.push('P/L','P/VPA','DY (%)','ROE (%)','EV/EBITDA','Margem Líq. (%)','Market Cap','Setor');
+  if (hasPos)  headers.push('Qtd','Preço Médio','Valor Investido','Valor Atual','P&L','P&L (%)');
+
+  const n = (v, d = 1) => v != null ? v.toFixed(d) : '';
 
   const rows = items.map(item => {
     const row = [
@@ -1217,11 +1226,23 @@ function exportCSV() {
       item.drop.toFixed(2),
       item.changeDay != null ? item.changeDay.toFixed(2) : '',
     ];
+
+    if (hasFund) {
+      const f = fundamentalsCache[item.ticker]?.data;
+      row.push(
+        n(f?.pe), n(f?.pb), n(f?.dy), n(f?.roe),
+        n(f?.evEbitda), n(f?.margin),
+        f?.marketCap != null ? f.marketCap.toFixed(0) : '',
+        f?.sector ? `"${f.sector}"` : '',
+      );
+    }
+
     if (hasPos) {
       const m = computeMetrics(item);
       if (m) row.push(m.qty, m.avgPrice.toFixed(2), m.invested.toFixed(2), m.current.toFixed(2), m.plAbs.toFixed(2), m.plPct.toFixed(2));
       else   row.push('', '', '', '', '', '');
     }
+
     return row.join(';');
   });
 
