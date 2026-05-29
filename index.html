@@ -41,46 +41,21 @@
     .about p:last-child { margin-bottom: 0; }
     .about strong { color: var(--text); font-weight: 600; }
     .legend {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-      padding-top: 14px;
+      display: flex; gap: 16px; flex-wrap: wrap;
+      margin-top: 14px; padding-top: 14px;
       border-top: 1px solid var(--border);
     }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    .dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+    .legend-item { display: flex; align-items: center; gap: 7px; font-size: 0.8rem; color: var(--muted); }
+    .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
     details summary {
-      cursor: pointer;
-      font-size: 0.8rem;
-      color: var(--accent);
-      margin-top: 12px;
-      user-select: none;
+      cursor: pointer; font-size: 0.8rem; color: var(--accent);
+      margin-top: 12px; user-select: none;
     }
     details summary:hover { text-decoration: underline; }
-    details .extra {
-      margin-top: 10px;
-      font-size: 0.835rem;
-      color: var(--muted);
-      line-height: 1.65;
-    }
+    details .extra { margin-top: 10px; font-size: 0.835rem; color: var(--muted); line-height: 1.65; }
     details .extra code {
-      background: var(--border);
-      border-radius: 4px;
-      padding: 1px 6px;
-      font-family: ui-monospace, monospace;
-      font-size: 0.8rem;
-      color: var(--text);
+      background: var(--border); border-radius: 4px; padding: 1px 6px;
+      font-family: ui-monospace, monospace; font-size: 0.8rem; color: var(--text);
     }
 
     .wrap { max-width: 980px; margin: 0 auto; }
@@ -101,57 +76,98 @@
     textarea:focus { outline: none; border-color: var(--accent); }
 
     .row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-top: 10px;
+      display: flex; gap: 8px; align-items: center;
+      flex-wrap: wrap; margin-top: 10px;
     }
-    .lbl { font-size: 0.8rem; color: var(--muted); }
+    .lbl { font-size: 0.8rem; color: var(--muted); white-space: nowrap; }
 
     .period-btn {
-      padding: 6px 14px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 0.825rem;
+      padding: 6px 14px; border-radius: 6px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 0.825rem;
       transition: all 0.15s;
     }
     .period-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
     .period-btn:hover:not(.active) { color: var(--text); border-color: var(--muted); }
 
+    #portfolioToggle {
+      padding: 6px 14px; border-radius: 6px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 0.825rem;
+      transition: all 0.15s;
+    }
+    #portfolioToggle.active { background: #1e1f3a; border-color: var(--accent); color: var(--accent); }
+    #portfolioToggle:hover:not(.active) { color: var(--text); border-color: var(--muted); }
+
     #refreshBtn {
       margin-left: auto;
-      padding: 7px 20px;
-      background: var(--accent);
-      border: none;
-      border-radius: 6px;
-      color: #fff;
-      font-size: 0.875rem;
-      font-weight: 600;
-      cursor: pointer;
+      padding: 7px 20px; background: var(--accent);
+      border: none; border-radius: 6px; color: #fff;
+      font-size: 0.875rem; font-weight: 600; cursor: pointer;
       transition: opacity 0.15s;
     }
     #refreshBtn:disabled { opacity: 0.4; cursor: not-allowed; }
     #clearBtn {
-      padding: 6px 12px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 0.8rem;
+      padding: 6px 12px; border-radius: 6px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 0.8rem;
       transition: all 0.15s;
     }
     #clearBtn:hover { color: var(--red); border-color: var(--red); }
 
+    /* Sort row */
+    .sort-row {
+      display: flex; gap: 8px; align-items: center;
+      flex-wrap: wrap; margin-top: 10px;
+    }
+    .sort-btn {
+      padding: 5px 12px; border-radius: 6px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 0.8rem;
+      transition: all 0.15s;
+    }
+    .sort-btn.active { background: #1e1f3a; border-color: var(--accent); color: var(--accent); }
+    .sort-btn:hover:not(.active) { color: var(--text); border-color: var(--muted); }
+
+    /* Portfolio summary */
+    .portfolio-summary {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin-top: 16px;
+    }
+    .summary-title {
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--muted); text-transform: uppercase;
+      letter-spacing: 0.6px; margin-bottom: 14px;
+    }
+    .summary-groups { display: flex; gap: 32px; flex-wrap: wrap; }
+    .summary-group { flex: 1; min-width: 180px; }
+    .summary-currency {
+      font-size: 0.7rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
+    }
+    .summary-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .summary-stat label { display: block; font-size: 0.7rem; color: var(--muted); margin-bottom: 3px; }
+    .summary-stat .val {
+      font-size: 0.88rem; font-weight: 700;
+      font-family: ui-monospace, monospace;
+    }
+    .summary-stat .sub { font-size: 0.72rem; margin-top: 2px; font-family: ui-monospace, monospace; }
+    .summary-top {
+      margin-top: 12px; padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 0.78rem; color: var(--muted);
+    }
+    .summary-top strong { color: var(--text); font-weight: 600; }
+    .summary-empty { font-size: 0.8rem; color: var(--muted); }
+    .summary-empty strong { color: var(--text); }
+
     #status {
-      color: var(--muted);
-      font-size: 0.8rem;
-      margin: 16px 0 20px;
-      min-height: 18px;
+      color: var(--muted); font-size: 0.8rem;
+      margin: 16px 0 20px; min-height: 18px;
     }
 
     .grid {
@@ -161,88 +177,234 @@
     }
 
     .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px 20px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px 20px;
       transition: border-color 0.2s;
     }
     .card:hover:not(.loading) { border-color: #3a3d5e; }
     .card.loading { animation: pulse 1.4s ease-in-out infinite; }
     .card.has-error { border-color: #3a1f1f; }
+    .card.has-position { border-color: #272a48; }
 
     @keyframes pulse { 0%,100%{opacity:.65} 50%{opacity:.3} }
 
     .card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 4px;
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 4px;
     }
+    .card-top-right { text-align: right; }
     .cticker {
-      font-size: 1.05rem;
-      font-weight: 700;
-      font-family: ui-monospace, monospace;
-      letter-spacing: .5px;
+      font-size: 1.05rem; font-weight: 700;
+      font-family: ui-monospace, monospace; letter-spacing: .5px;
     }
     .cdrop {
-      font-size: 1.65rem;
-      font-weight: 800;
-      letter-spacing: -1px;
-      line-height: 1;
+      font-size: 1.65rem; font-weight: 800;
+      letter-spacing: -1px; line-height: 1;
+    }
+    .cday {
+      display: block; font-size: 0.7rem;
+      font-weight: 600; margin-top: 3px;
     }
     .cname {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-bottom: 14px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      font-size: 0.75rem; color: var(--muted); margin-bottom: 14px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
     .bar-track {
-      height: 5px;
-      background: var(--border);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-bottom: 12px;
+      height: 5px; background: var(--border);
+      border-radius: 3px; overflow: hidden; margin-bottom: 12px;
     }
     .bar-fill { height: 100%; border-radius: 3px; transition: width .6s ease; }
     .cprices {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.75rem;
-      color: var(--muted);
+      display: flex; justify-content: space-between;
+      font-size: 0.75rem; color: var(--muted);
     }
     .cprices .cur { color: var(--text); font-weight: 600; }
     .cerror { font-size: 0.75rem; color: var(--red); margin-top: 6px; }
 
-    .share-row { display: flex; gap: 8px; margin-top: 24px; align-items: center; }
-    .share-input {
-      flex: 1;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--muted);
-      padding: 8px 12px;
-      font-size: 0.775rem;
+    /* Portfolio card extras */
+    .portfolio-info {
+      margin-top: 12px; padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .pinfo-row {
+      display: flex; justify-content: space-between;
+      align-items: baseline; font-size: 0.75rem; margin-bottom: 8px;
+    }
+    .pnl-val {
+      font-size: 0.88rem; font-weight: 700;
       font-family: ui-monospace, monospace;
     }
-    .copy-btn {
-      padding: 8px 14px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text);
-      cursor: pointer;
-      font-size: 0.775rem;
-      white-space: nowrap;
+    .pos-val { color: var(--muted); font-family: ui-monospace, monospace; }
+    .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: 0.68rem; padding: 2px 8px;
+      border-radius: 999px; border: 1px solid var(--border);
+      color: var(--muted); white-space: nowrap;
+    }
+    .tag.w { border-color: #3a3d6a; color: var(--accent); }
+
+    .add-pos-btn, .edit-pos-btn {
+      display: block; width: 100%; margin-top: 12px;
+      padding: 6px; border-radius: 6px;
+      border: 1px dashed var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 0.75rem;
+      text-align: center; transition: all 0.15s;
+    }
+    .add-pos-btn:hover, .edit-pos-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Inline position editor */
+    .pos-editor {
+      margin-top: 12px; padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .pos-editor-inputs { display: flex; gap: 8px; margin-bottom: 8px; }
+    .pos-input-group { flex: 1; }
+    .pos-input-group label {
+      display: block; font-size: 0.68rem;
+      color: var(--muted); margin-bottom: 3px;
+    }
+    .pos-input {
+      width: 100%; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 6px;
+      color: var(--text); font-family: ui-monospace, monospace;
+      font-size: 0.8rem; padding: 6px 8px;
       transition: border-color 0.15s;
+    }
+    .pos-input:focus { outline: none; border-color: var(--accent); }
+    .pos-input.invalid { border-color: var(--red); }
+    .pos-editor-btns { display: flex; gap: 6px; }
+    .save-pos-btn {
+      flex: 1; padding: 6px; border-radius: 6px;
+      border: none; background: var(--accent); color: #fff;
+      cursor: pointer; font-size: 0.775rem; font-weight: 600;
+      transition: opacity 0.15s;
+    }
+    .save-pos-btn:hover { opacity: 0.85; }
+    .remove-pos-btn, .cancel-pos-btn {
+      padding: 6px 10px; border-radius: 6px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 0.775rem;
+      transition: all 0.15s;
+    }
+    .remove-pos-btn:hover, .cancel-pos-btn:hover { color: var(--red); border-color: var(--red); }
+
+    /* Share / export */
+    .share-row { display: flex; gap: 8px; margin-top: 24px; align-items: center; }
+    .share-input {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--muted); padding: 8px 12px;
+      font-size: 0.775rem; font-family: ui-monospace, monospace;
+    }
+    .copy-btn {
+      padding: 8px 14px; border-radius: 6px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--text); cursor: pointer; font-size: 0.775rem;
+      white-space: nowrap; transition: border-color 0.15s;
     }
     .copy-btn:hover { border-color: var(--accent); }
 
-    @media (max-width: 480px) {
+    .portfolio-share-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 8px; font-size: 0.775rem; color: var(--muted);
+    }
+    .portfolio-share-row input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
+    .portfolio-share-row label { cursor: pointer; }
+
+    #exportBtn {
+      margin-top: 12px; padding: 7px 16px;
+      border-radius: 6px; border: 1px solid var(--border);
+      background: transparent; color: var(--muted);
+      cursor: pointer; font-size: 0.8rem; transition: all 0.15s;
+    }
+    #exportBtn:hover { color: var(--text); border-color: var(--muted); }
+
+    /* View toggle */
+    .view-btn {
+      padding: 6px 14px; border-radius: 6px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 0.825rem;
+      transition: all 0.15s;
+    }
+    .view-btn.active { background: #1e1f3a; border-color: var(--accent); color: var(--accent); }
+    .view-btn:hover:not(.active) { color: var(--text); border-color: var(--muted); }
+
+    /* List container */
+    #list-container {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    /* Table */
+    .list-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 860px;
+    }
+    .list-table thead th {
+      background: var(--card);
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      padding: 10px 12px;
+      text-align: right;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    .list-table thead th.th-left { text-align: left; }
+    .list-table thead th.sortable {
+      cursor: pointer; user-select: none;
+    }
+    .list-table thead th.sortable:hover { color: var(--text); }
+    .list-table thead th.sort-active { color: var(--accent); }
+
+    .list-table tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.1s;
+    }
+    .list-table tbody tr:last-child { border-bottom: none; }
+    .list-table tbody tr:nth-child(even) { background: rgba(255,255,255,0.018); }
+    .list-table tbody tr:hover { background: rgba(99,102,241,0.06); }
+
+    .list-table td {
+      padding: 9px 12px;
+      text-align: right;
+      white-space: nowrap;
+      color: var(--muted);
+      font-family: ui-monospace, monospace;
+      font-size: 0.78rem;
+    }
+    .list-table td.td-left {
+      text-align: left;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .list-table td.td-ticker {
+      font-weight: 700; font-size: 0.82rem;
+      color: var(--text); font-family: ui-monospace, monospace;
+      position: sticky; left: 0; z-index: 1;
+      background: var(--card);
+    }
+    .list-table tbody tr:nth-child(even) td.td-ticker { background: #1c1f2d; }
+    .list-table tbody tr:hover td.td-ticker { background: #1e2035; }
+    .list-table td.td-name {
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 150px;
+      overflow: hidden; text-overflow: ellipsis;
+      text-align: left;
+    }
+    .list-table td.td-cur { color: var(--text); font-weight: 600; }
+    .list-table td.loading-cell { opacity: 0.3; }
+
+    @media (max-width: 520px) {
       .cdrop { font-size: 1.3rem; }
       #refreshBtn { margin-left: 0; width: 100%; }
+      .summary-stats { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -278,8 +440,11 @@
          Ações brasileiras (ex: <code>WEGE3</code>) são detectadas automaticamente.
          Ações americanas use o símbolo direto (ex: <code>AAPL</code>).</p>
       <p>2. <strong>Escolha o período</strong> — o topo será calculado dentro dessa janela de tempo.</p>
-      <p>3. <strong>Compartilhe</strong> sua lista pelo link gerado na parte de baixo da página.
-         Quem abrir o link verá exatamente as mesmas ações.</p>
+      <p>3. <strong>Modo Portfolio</strong>: ative o botão <code>◎ Portfolio</code> e clique em
+         <em>Adicionar posição</em> em cada card para informar quantidade e preço médio.
+         O app calcula P&amp;L, peso na carteira e potencial de recuperação até o topo.</p>
+      <p>4. <strong>Compartilhe</strong> sua lista pelo link gerado na parte de baixo da página.
+         No modo portfolio, você pode optar por incluir as posições no link.</p>
     </div>
   </details>
 </div>
@@ -292,43 +457,71 @@
     <button class="period-btn active" data-p="1y">1 ano</button>
     <button class="period-btn" data-p="2y">2 anos</button>
     <button class="period-btn" data-p="5y">5 anos</button>
+    <button id="portfolioToggle">◎ Portfolio</button>
+    <button class="view-btn active" id="viewCards">⊞ Cards</button>
+    <button class="view-btn" id="viewList">≡ Lista</button>
     <button id="refreshBtn">↻ Atualizar</button>
     <button id="clearBtn" title="Apagar lista salva e voltar ao padrão">✕ Limpar salvo</button>
   </div>
 
+  <div class="sort-row" id="sortRow" style="display:none">
+    <span class="lbl">Ordenar por:</span>
+    <button class="sort-btn active" data-s="drop">Queda do topo</button>
+    <button class="sort-btn" data-s="pl_pct">P&amp;L %</button>
+    <button class="sort-btn" data-s="pl_abs">P&amp;L valor</button>
+    <button class="sort-btn" data-s="weight">Peso</button>
+  </div>
+
+  <div class="portfolio-summary" id="portfolioSummary" style="display:none"></div>
+
   <p id="status"></p>
   <div class="grid" id="grid"></div>
+  <div id="list-container" style="display:none"></div>
 
   <div class="share-row">
     <input class="share-input" id="shareLink" readonly placeholder="link de compartilhamento">
     <button class="copy-btn" id="copyBtn">Copiar link</button>
   </div>
+
+  <div class="portfolio-share-row" id="portfolioShareRow" style="display:none">
+    <input type="checkbox" id="includePortfolio">
+    <label for="includePortfolio">Incluir posições no link de compartilhamento</label>
+  </div>
+
+  <button id="exportBtn" style="display:none">⬇ Exportar CSV</button>
 </div>
 
 <script>
 'use strict';
 
-let period = '1y';
-let busy   = false;
+let period           = '1y';
+let busy             = false;
+let portfolioMode    = false;
+let portfolioData    = {};
+let sortMode         = 'drop';
+let currentItems     = [];
+let editingTicker    = null;
+let cachedSummary    = null;
+let viewMode          = 'cards';
+let fundamentalsCache = {};
+let tableGen          = 0;
+let tableSort         = { col: 'drop', dir: 'asc' };
 
 // ── utils ──────────────────────────────────────────────────────────────────
 
-const $    = id => document.getElementById(id);
+const $     = id => document.getElementById(id);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 function normalizeTicker(raw) {
   const t = raw.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
   if (!t) return null;
-  // Padrão de ação brasileira: 4 letras + 1-2 dígitos + opcional B/F
   if (/^[A-Z]{4}\d{1,2}[BF]?$/.test(t)) return t + '.SA';
   return t;
 }
 
 function parseTickers(text) {
   return [...new Set(
-    text.split(/[\s,;|\n]+/)
-        .map(normalizeTicker)
-        .filter(Boolean)
+    text.split(/[\s,;|\n]+/).map(normalizeTicker).filter(Boolean)
   )];
 }
 
@@ -341,37 +534,181 @@ function dropStyle(pct) {
   return '#ef4444';
 }
 
+function pnlColor(pct) { return pct >= 0 ? '#22c55e' : '#ef4444'; }
+
 function fmt(price, currency) {
-  if (currency === 'BRL') return 'R$ ' + price.toFixed(2).replace('.', ',');
-  return '$ ' + price.toFixed(2);
+  if (currency === 'BRL') return 'R$ ' + price.toFixed(2).replace('.', ',');
+  return '$ ' + price.toFixed(2);
+}
+
+function fmtPct(pct) {
+  const sign = pct > 0 ? '+' : '';
+  return sign + pct.toFixed(1).replace('.', ',') + '%';
+}
+
+function fmtMarketCap(val, currency) {
+  if (val == null) return '—';
+  const p = currency === 'BRL' ? 'R$' : '$';
+  if (val >= 1e12) return p + (val / 1e12).toFixed(1) + 'T';
+  if (val >= 1e9)  return p + (val / 1e9).toFixed(1) + 'B';
+  if (val >= 1e6)  return p + (val / 1e6).toFixed(0) + 'M';
+  return p + val.toFixed(0);
+}
+
+function fundColor(col, val) {
+  if (val == null) return '';
+  switch (col) {
+    case 'dy':     return val >= 8 ? '#22c55e' : val >= 4 ? '#eab308' : '';
+    case 'pe':     return val <= 0 ? '#ef4444' : val >= 40 ? '#f97316' : '';
+    case 'roe':    return val <= 0 ? '#ef4444' : val >= 15 ? '#22c55e' : '';
+    case 'margin': return val < 0  ? '#ef4444' : '';
+    default:       return '';
+  }
+}
+
+// ── portfolio data ─────────────────────────────────────────────────────────
+
+function loadPortfolioData() {
+  try {
+    const s = localStorage.getItem('quedas_portfolio');
+    if (s) portfolioData = JSON.parse(s);
+  } catch (_) {}
+}
+
+function savePortfolioData() {
+  localStorage.setItem('quedas_portfolio', JSON.stringify(portfolioData));
+}
+
+function loadFundamentalsCache() {
+  const n = localStorage.length;
+  for (let i = 0; i < n; i++) {
+    const key = localStorage.key(i);
+    if (!key?.startsWith('quedas_fund_')) continue;
+    try {
+      const ticker = key.slice('quedas_fund_'.length);
+      fundamentalsCache[ticker] = JSON.parse(localStorage.getItem(key));
+    } catch (_) {}
+  }
+}
+
+function clearFundamentalsCache() {
+  const keys = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k?.startsWith('quedas_fund_')) keys.push(k);
+  }
+  keys.forEach(k => localStorage.removeItem(k));
+  fundamentalsCache = {};
+}
+
+function getPosition(ticker) {
+  const p = portfolioData[ticker];
+  return (p && p.qty > 0 && p.avgPrice > 0) ? p : null;
+}
+
+function computeMetrics(item) {
+  const pos = getPosition(item.ticker);
+  if (!pos) return null;
+  const invested = pos.qty * pos.avgPrice;
+  const current  = pos.qty * item.current;
+  return {
+    qty:             pos.qty,
+    avgPrice:        pos.avgPrice,
+    invested,
+    current,
+    plAbs:           current - invested,
+    plPct:           ((item.current - pos.avgPrice) / pos.avgPrice) * 100,
+    potentialToPeak: ((item.peak - item.current) / item.current) * 100,
+  };
+}
+
+function computeSummary(items) {
+  const groups = {};
+  for (const item of items) {
+    if (!item.ok) continue;
+    const m = computeMetrics(item);
+    if (!m) continue;
+    const c = item.currency;
+    if (!groups[c]) groups[c] = { invested: 0, current: 0, positions: [] };
+    groups[c].invested += m.invested;
+    groups[c].current  += m.current;
+    groups[c].positions.push({ ticker: item.ticker, value: m.current });
+  }
+  for (const g of Object.values(groups)) {
+    g.plAbs = g.current - g.invested;
+    g.plPct = g.invested > 0 ? ((g.current - g.invested) / g.invested) * 100 : 0;
+    g.positions.sort((a, b) => b.value - a.value);
+    g.positions = g.positions.map(p => ({
+      ...p,
+      weight: g.current > 0 ? (p.value / g.current) * 100 : 0,
+    }));
+  }
+  return groups;
+}
+
+function renderSummary(items) {
+  cachedSummary = computeSummary(items);
+  const el      = $('portfolioSummary');
+  const entries = Object.entries(cachedSummary);
+
+  if (!entries.length) {
+    el.innerHTML = `<div class="summary-empty">Nenhuma posição cadastrada ainda. Clique em <strong>+ Adicionar posição</strong> nos cards abaixo.</div>`;
+    return;
+  }
+
+  const groupsHTML = entries.map(([currency, g]) => {
+    const plColor = pnlColor(g.plPct);
+    const top     = g.positions.slice(0, 3)
+      .map(p => `<strong>${display(p.ticker)}</strong> ${p.weight.toFixed(0)}%`)
+      .join(' &middot; ');
+
+    return `
+      <div class="summary-group">
+        <div class="summary-currency">${currency}</div>
+        <div class="summary-stats">
+          <div class="summary-stat">
+            <label>Investido</label>
+            <div class="val">${fmt(g.invested, currency)}</div>
+          </div>
+          <div class="summary-stat">
+            <label>Atual</label>
+            <div class="val">${fmt(g.current, currency)}</div>
+          </div>
+          <div class="summary-stat">
+            <label>P&amp;L</label>
+            <div class="val" style="color:${plColor}">${fmt(g.plAbs, currency)}</div>
+            <div class="sub" style="color:${plColor}">${fmtPct(g.plPct)}</div>
+          </div>
+        </div>
+        ${top ? `<div class="summary-top">Maiores posições: ${top}</div>` : ''}
+      </div>`;
+  }).join('');
+
+  el.innerHTML = `<div class="summary-title">Resumo da Carteira</div><div class="summary-groups">${groupsHTML}</div>`;
 }
 
 // ── API ────────────────────────────────────────────────────────────────────
 
 async function fetchJSON(url) {
   const proxies = [
-    // allorigins: envolve resposta em { contents: "..." }
     async () => {
       const r = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-      if (!r.ok) throw new Error('allorigins falhou');
+      if (!r.ok) throw new Error();
       const w = await r.json();
-      if (!w.contents) throw new Error('allorigins sem conteúdo');
+      if (!w.contents) throw new Error();
       return JSON.parse(w.contents);
     },
-    // thingproxy: proxy transparente, gratuito
     async () => {
       const r = await fetch(`https://thingproxy.freeboard.io/fetch/${url}`);
-      if (!r.ok) throw new Error('thingproxy falhou');
+      if (!r.ok) throw new Error();
       return r.json();
     },
-    // codetabs: proxy transparente, gratuito
     async () => {
       const r = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`);
-      if (!r.ok) throw new Error('codetabs falhou');
+      if (!r.ok) throw new Error();
       return r.json();
     },
   ];
-
   for (const proxy of proxies) {
     try { return await proxy(); } catch (_) {}
   }
@@ -382,30 +719,77 @@ async function fetchStock(ticker, p) {
   const url  = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=${p}&interval=1d`;
   const data = await fetchJSON(url);
 
-  if (!data?.chart?.result?.[0]) {
+  if (!data?.chart?.result?.[0])
     throw new Error(data?.chart?.error?.description || 'Ticker não encontrado');
-  }
 
   const res    = data.chart.result[0];
   const meta   = res.meta;
   const closes = (res.indicators?.quote?.[0]?.close ?? []).filter(v => v != null);
-
   if (!closes.length) throw new Error('Sem dados históricos');
 
   const current = meta.regularMarketPrice;
   const peak    = Math.max(...closes);
-  const drop    = ((current - peak) / peak) * 100;
 
   return {
     ticker,
     name:      meta.shortName || meta.longName || ticker,
     current,
     peak,
-    drop,
+    drop:      ((current - peak) / peak) * 100,
     pctOfPeak: (current / peak) * 100,
     currency:  meta.currency || 'USD',
+    changeDay: meta.regularMarketChangePercent ?? null,
     ok:        true,
   };
+}
+
+// ── fundamentals ───────────────────────────────────────────────────────────
+
+const FUND_TTL = 86_400_000;
+
+async function fetchFundamentals(ticker) {
+  const url  = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${ticker}`
+             + `?modules=summaryDetail,defaultKeyStatistics,financialData,assetProfile`;
+  try {
+    const data = await fetchJSON(url);
+    const r    = data?.quoteSummary?.result?.[0];
+    if (!r) return null;
+
+    const sd = r.summaryDetail        || {};
+    const ks = r.defaultKeyStatistics || {};
+    const fd = r.financialData        || {};
+    const ap = r.assetProfile         || {};
+
+    const raw = (o, k) => o[k]?.raw ?? null;
+    const pct = (o, k) => { const v = o[k]?.raw; return v != null ? v * 100 : null; };
+
+    const fund = {
+      pe:        raw(sd, 'trailingPE'),
+      pb:        raw(ks, 'priceToBook'),
+      dy:        pct(sd, 'dividendYield'),
+      roe:       pct(fd, 'returnOnEquity'),
+      evEbitda:  raw(ks, 'enterpriseToEbitda'),
+      margin:    pct(fd, 'profitMargins'),
+      marketCap: raw(sd, 'marketCap'),
+      eps:       raw(ks, 'trailingEps'),
+      sector:    ap.sector || null,
+      payout:    pct(sd, 'payoutRatio'),
+    };
+
+    const entry = { data: fund, fetchedAt: Date.now() };
+    fundamentalsCache[ticker] = entry;
+    try { localStorage.setItem(`quedas_fund_${ticker}`, JSON.stringify(entry)); } catch (_) {}
+
+    return fund;
+  } catch (_) {
+    return null;
+  }
+}
+
+async function getFundamentals(ticker) {
+  const cached = fundamentalsCache[ticker];
+  if (cached && Date.now() - cached.fetchedAt < FUND_TTL) return cached.data;
+  return fetchFundamentals(ticker);
 }
 
 // ── render ─────────────────────────────────────────────────────────────────
@@ -414,7 +798,7 @@ function cardHTML(item) {
   const d = display(item.ticker);
 
   if (item.loading) return `
-    <div class="card loading">
+    <div class="card loading" data-ticker="${item.ticker}">
       <div class="card-top">
         <span class="cticker">${d}</span>
         <span class="cdrop" style="color:var(--border)">—</span>
@@ -424,41 +808,325 @@ function cardHTML(item) {
     </div>`;
 
   if (item.error) return `
-    <div class="card has-error">
+    <div class="card has-error" data-ticker="${item.ticker}">
       <div class="card-top"><span class="cticker">${d}</span></div>
       <div class="cerror">${item.error}</div>
     </div>`;
 
-  const color = dropStyle(item.drop);
-  const width = Math.max(2, item.pctOfPeak).toFixed(1);
+  const dropColor = dropStyle(item.drop);
+  const barWidth  = Math.max(2, item.pctOfPeak).toFixed(1);
+  const dayHTML   = item.changeDay != null
+    ? `<span class="cday" style="color:${pnlColor(item.changeDay)}">${fmtPct(item.changeDay)} hoje</span>`
+    : '';
+
+  if (!portfolioMode) {
+    return `
+      <div class="card" data-ticker="${item.ticker}">
+        <div class="card-top">
+          <span class="cticker">${d}</span>
+          <div class="card-top-right">
+            <span class="cdrop" style="color:${dropColor}">${item.drop.toFixed(1)}%</span>
+            ${dayHTML}
+          </div>
+        </div>
+        <div class="cname" title="${item.name}">${item.name}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${barWidth}%;background:${dropColor}"></div></div>
+        <div class="cprices">
+          <span class="cur">${fmt(item.current, item.currency)}</span>
+          <span>topo: ${fmt(item.peak, item.currency)}</span>
+        </div>
+      </div>`;
+  }
+
+  // ── portfolio mode ─────────────────────────────────────────────────────
+  const metrics   = computeMetrics(item);
+  const isEditing = editingTicker === item.ticker;
+  const pos       = getPosition(item.ticker);
+
+  const editorHTML = `
+    <div class="pos-editor">
+      <div class="pos-editor-inputs">
+        <div class="pos-input-group">
+          <label>Quantidade</label>
+          <input class="pos-input" id="posQty_${item.ticker}" type="number" min="0" step="1"
+            placeholder="100" value="${pos ? pos.qty : ''}">
+        </div>
+        <div class="pos-input-group">
+          <label>Preço médio (${item.currency === 'BRL' ? 'R$' : '$'})</label>
+          <input class="pos-input" id="posAvg_${item.ticker}" type="number" min="0" step="0.01"
+            placeholder="0.00" value="${pos ? pos.avgPrice : ''}">
+        </div>
+      </div>
+      <div class="pos-editor-btns">
+        <button class="save-pos-btn" data-ticker="${item.ticker}">Salvar</button>
+        ${pos ? `<button class="remove-pos-btn" data-ticker="${item.ticker}">Remover</button>` : ''}
+        <button class="cancel-pos-btn" data-ticker="${item.ticker}">Cancelar</button>
+      </div>
+    </div>`;
+
+  if (!metrics) {
+    return `
+      <div class="card" data-ticker="${item.ticker}">
+        <div class="card-top">
+          <span class="cticker">${d}</span>
+          <div class="card-top-right">
+            <span class="cdrop" style="color:${dropColor}">${item.drop.toFixed(1)}%</span>
+            ${dayHTML}
+          </div>
+        </div>
+        <div class="cname" title="${item.name}">${item.name}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${barWidth}%;background:${dropColor}"></div></div>
+        <div class="cprices">
+          <span class="cur">${fmt(item.current, item.currency)}</span>
+          <span>topo: ${fmt(item.peak, item.currency)}</span>
+        </div>
+        ${isEditing ? editorHTML : `<button class="add-pos-btn" data-ticker="${item.ticker}">+ Adicionar posição</button>`}
+      </div>`;
+  }
+
+  // card with position
+  const plColor  = pnlColor(metrics.plPct);
+  const plSign   = metrics.plAbs >= 0 ? '+' : '';
+  const summary  = cachedSummary || computeSummary(currentItems);
+  const group    = summary[item.currency];
+  const weight   = (group && group.current > 0) ? (metrics.current / group.current) * 100 : 0;
 
   return `
-    <div class="card">
+    <div class="card has-position" data-ticker="${item.ticker}">
       <div class="card-top">
         <span class="cticker">${d}</span>
-        <span class="cdrop" style="color:${color}">${item.drop.toFixed(1)}%</span>
+        <div class="card-top-right">
+          <span class="cdrop" style="color:${plColor}">${fmtPct(metrics.plPct)}</span>
+          <span class="cday" style="color:${dropColor}">${item.drop.toFixed(1)}% topo</span>
+        </div>
       </div>
       <div class="cname" title="${item.name}">${item.name}</div>
-      <div class="bar-track">
-        <div class="bar-fill" style="width:${width}%;background:${color}"></div>
-      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:${barWidth}%;background:${dropColor}"></div></div>
       <div class="cprices">
         <span class="cur">${fmt(item.current, item.currency)}</span>
-        <span>topo: ${fmt(item.peak, item.currency)}</span>
+        <span>médio: ${fmt(metrics.avgPrice, item.currency)}</span>
       </div>
+      <div class="portfolio-info">
+        <div class="pinfo-row">
+          <span class="pnl-val" style="color:${plColor}">${plSign}${fmt(metrics.plAbs, item.currency)}</span>
+          <span class="pos-val">pos. ${fmt(metrics.current, item.currency)}</span>
+        </div>
+        <div class="tag-row">
+          ${weight > 0 ? `<span class="tag w">${weight.toFixed(1)}% carteira</span>` : ''}
+          <span class="tag">pot. topo: +${metrics.potentialToPeak.toFixed(1)}%</span>
+          <span class="tag">${metrics.qty} cotas</span>
+          ${item.changeDay != null ? `<span class="tag" style="color:${pnlColor(item.changeDay)}">${fmtPct(item.changeDay)} hoje</span>` : ''}
+        </div>
+      </div>
+      ${isEditing ? editorHTML : `<button class="edit-pos-btn" data-ticker="${item.ticker}">✎ Editar posição</button>`}
     </div>`;
 }
 
-function renderGrid(items) {
-  const sorted = [...items].sort((a, b) => {
-    // carregando por último; erro antes dos carregando, depois dos ok
-    if (a.loading  && !b.loading)  return 1;
+function sortItems(items) {
+  return [...items].sort((a, b) => {
+    if (a.loading  && !b.loading)  return  1;
     if (!a.loading &&  b.loading)  return -1;
-    if (a.error    && !b.error)    return 1;
+    if (a.error    && !b.error)    return  1;
     if (!a.error   &&  b.error)    return -1;
-    return a.drop - b.drop; // mais caído primeiro (mais negativo = primeiro)
+
+    if (!portfolioMode || sortMode === 'drop') return a.drop - b.drop;
+
+    const ma = a.ok ? computeMetrics(a) : null;
+    const mb = b.ok ? computeMetrics(b) : null;
+
+    if (!ma && !mb) return a.drop - b.drop;
+    if (!ma) return 1;
+    if (!mb) return -1;
+
+    if (sortMode === 'pl_pct') return ma.plPct - mb.plPct;
+    if (sortMode === 'pl_abs') return ma.plAbs - mb.plAbs;
+    if (sortMode === 'weight') return mb.current - ma.current;
+
+    return a.drop - b.drop;
   });
-  $('grid').innerHTML = sorted.map(cardHTML).join('');
+}
+
+function sortTableItems(items) {
+  const { col, dir } = tableSort;
+  const mult = dir === 'asc' ? 1 : -1;
+
+  return [...items].sort((a, b) => {
+    if (!a.ok && !b.ok) return 0;
+    if (!a.ok) return 1;
+    if (!b.ok) return -1;
+
+    let va, vb;
+
+    if (col === 'drop') {
+      va = a.drop;          vb = b.drop;
+    } else if (col === 'day') {
+      va = a.changeDay ?? null; vb = b.changeDay ?? null;
+    } else if (['pe','pb','dy','roe','evEbitda','margin'].includes(col)) {
+      va = fundamentalsCache[a.ticker]?.data?.[col] ?? null;
+      vb = fundamentalsCache[b.ticker]?.data?.[col] ?? null;
+    } else if (col === 'plAbs' || col === 'plPct') {
+      const ma = computeMetrics(a), mb = computeMetrics(b);
+      va = ma ? ma[col] : null;
+      vb = mb ? mb[col] : null;
+    } else {
+      va = a.drop; vb = b.drop;
+    }
+
+    if (va == null && vb == null) return 0;
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    return (va - vb) * mult;
+  });
+}
+
+function renderGrid(items) {
+  currentItems = items;
+  if (portfolioMode) renderSummary(items);
+  $('grid').innerHTML = sortItems(items).map(cardHTML).join('');
+  if (viewMode === 'list') renderTable(items);
+}
+
+// ── table render ───────────────────────────────────────────────────────────
+
+function tableRowHTML(item, fund, isLoading) {
+  const d         = display(item.ticker);
+  const dropColor = dropStyle(item.drop);
+
+  const numCell = (col, val, suffix = '') => {
+    if (isLoading) return `<td class="loading-cell">…</td>`;
+    if (val == null) return `<td>—</td>`;
+    const color = fundColor(col, val);
+    const s     = color ? ` style="color:${color}"` : '';
+    return `<td${s}>${val.toFixed(1).replace('.', ',')}${suffix}</td>`;
+  };
+
+  const dayCell = item.changeDay != null
+    ? `<td style="color:${pnlColor(item.changeDay)}">${fmtPct(item.changeDay)}</td>`
+    : `<td>—</td>`;
+
+  const capCell = isLoading
+    ? `<td class="loading-cell">…</td>`
+    : `<td>${fmtMarketCap(fund?.marketCap ?? null, item.currency)}</td>`;
+
+  const sectorCell = isLoading
+    ? `<td class="td-left loading-cell">…</td>`
+    : `<td class="td-left">${fund?.sector || '—'}</td>`;
+
+  let portfolioCells = '';
+  if (portfolioMode) {
+    const m = computeMetrics(item);
+    if (m) {
+      const plc  = pnlColor(m.plPct);
+      const sign = m.plAbs >= 0 ? '+' : '';
+      portfolioCells = `
+        <td>${m.qty}</td>
+        <td>${fmt(m.avgPrice, item.currency)}</td>
+        <td>${fmt(m.invested, item.currency)}</td>
+        <td>${fmt(m.current, item.currency)}</td>
+        <td style="color:${plc}">${sign}${fmt(m.plAbs, item.currency)}</td>
+        <td style="color:${plc}">${fmtPct(m.plPct)}</td>`;
+    } else {
+      portfolioCells = `<td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td>`;
+    }
+  }
+
+  return `<tr data-ticker="${item.ticker}">
+    <td class="td-ticker">${d}</td>
+    <td class="td-name" title="${item.name}">${item.name}</td>
+    <td class="td-cur">${fmt(item.current, item.currency)}</td>
+    ${dayCell}
+    <td style="color:${dropColor}">${item.drop.toFixed(1).replace('.', ',')}%</td>
+    ${capCell}
+    ${numCell('pe',       fund?.pe       ?? null)}
+    ${numCell('pb',       fund?.pb       ?? null)}
+    ${numCell('dy',       fund?.dy       ?? null, '%')}
+    ${numCell('roe',      fund?.roe      ?? null, '%')}
+    ${numCell('evEbitda', fund?.evEbitda ?? null)}
+    ${numCell('margin',   fund?.margin   ?? null, '%')}
+    ${sectorCell}
+    ${portfolioCells}
+  </tr>`;
+}
+
+async function renderTable(items) {
+  const gen = ++tableGen;
+
+  // [cls, sortId, label]  — sortId='' means not sortable
+  const baseCols = [
+    ['',        '',         'Ticker'],
+    ['th-left', '',         'Nome'],
+    ['',        '',         'Preço'],
+    ['',        'day',      'Dia'],
+    ['',        'drop',     'Topo'],
+    ['',        '',         'Mkt Cap'],
+    ['',        'pe',       'P/L'],
+    ['',        'pb',       'P/VPA'],
+    ['',        'dy',       'DY'],
+    ['',        'roe',      'ROE'],
+    ['',        'evEbitda', 'EV/EBITDA'],
+    ['',        'margin',   'M.Líq.'],
+    ['th-left', '',         'Setor'],
+  ];
+  const portCols = portfolioMode ? [
+    ['', '',      'Qtd'],
+    ['', '',      'P.Médio'],
+    ['', '',      'Investido'],
+    ['', '',      'Atual'],
+    ['', 'plAbs', 'P&amp;L'],
+    ['', 'plPct', 'P&amp;L%'],
+  ] : [];
+  const cols     = [...baseCols, ...portCols];
+  const colCount = cols.length;
+
+  const headHTML = cols.map(([cls, sid, lbl]) => {
+    const sortable  = !!sid;
+    const isActive  = tableSort.col === sid;
+    const arrow     = isActive ? (tableSort.dir === 'asc' ? ' ▲' : ' ▼') : '';
+    const extra     = (sortable ? ' sortable' : '') + (isActive ? ' sort-active' : '');
+    const data      = sortable ? ` data-col="${sid}"` : '';
+    return `<th class="${cls}${extra}"${data}>${lbl}${arrow}</th>`;
+  }).join('');
+
+  const okItems  = sortTableItems(items).filter(i => i.ok);
+  const initRows = [
+    ...items.filter(i => i.loading).map(i => `
+      <tr data-ticker="${i.ticker}">
+        <td class="td-ticker">${display(i.ticker)}</td>
+        <td colspan="${colCount - 1}" class="loading-cell" style="text-align:left">carregando…</td>
+      </tr>`),
+    ...items.filter(i => i.error).map(i => `
+      <tr data-ticker="${i.ticker}">
+        <td class="td-ticker">${display(i.ticker)}</td>
+        <td colspan="${colCount - 1}" style="color:var(--red);font-size:0.75rem;text-align:left">${i.error}</td>
+      </tr>`),
+    ...okItems.map(i => tableRowHTML(i, null, true)),
+  ].join('');
+
+  $('list-container').innerHTML = `<table class="list-table">
+    <thead><tr>${headHTML}</tr></thead>
+    <tbody>${initRows}</tbody>
+  </table>`;
+
+  $('list-container').querySelectorAll('th.sortable').forEach(th => {
+    th.addEventListener('click', () => {
+      const col = th.dataset.col;
+      tableSort.dir = tableSort.col === col && tableSort.dir === 'asc' ? 'desc' : 'asc';
+      tableSort.col = col;
+      renderTable(currentItems);
+    });
+  });
+
+  for (let i = 0; i < okItems.length; i++) {
+    if (tableGen !== gen) return;
+    const item     = okItems[i];
+    const wasCache = !!(fundamentalsCache[item.ticker] &&
+                        Date.now() - fundamentalsCache[item.ticker].fetchedAt < FUND_TTL);
+    const fund     = await getFundamentals(item.ticker);
+    if (tableGen !== gen) return;
+    const row = $('list-container').querySelector(`tr[data-ticker="${item.ticker}"]`);
+    if (row) row.outerHTML = tableRowHTML(item, fund, false);
+    if (!wasCache && i < okItems.length - 1) await sleep(300);
+  }
 }
 
 // ── carga principal ────────────────────────────────────────────────────────
@@ -467,10 +1135,7 @@ async function load() {
   if (busy) return;
 
   const tickers = parseTickers($('tickerInput').value);
-  if (!tickers.length) {
-    $('status').textContent = 'Nenhum ticker encontrado.';
-    return;
-  }
+  if (!tickers.length) { $('status').textContent = 'Nenhum ticker encontrado.'; return; }
 
   busy = true;
   $('refreshBtn').disabled = true;
@@ -481,8 +1146,7 @@ async function load() {
   renderGrid(items);
 
   for (let i = 0; i < tickers.length; i++) {
-    $('status').textContent =
-      `Carregando ${display(tickers[i])} (${i + 1}/${tickers.length})…`;
+    $('status').textContent = `Carregando ${display(tickers[i])} (${i + 1}/${tickers.length})…`;
     try {
       items[i] = await fetchStock(tickers[i], period);
     } catch (e) {
@@ -492,34 +1156,160 @@ async function load() {
     if (i < tickers.length - 1) await sleep(350);
   }
 
-  $('status').textContent =
-    `Atualizado em ${new Date().toLocaleTimeString('pt-BR')} · ${tickers.length} ações`;
+  $('status').textContent = `Atualizado em ${new Date().toLocaleTimeString('pt-BR')} · ${tickers.length} ações`;
   busy = false;
   $('refreshBtn').disabled = false;
 }
 
-// ── link de compartilhamento ───────────────────────────────────────────────
+// ── portfolio mode ─────────────────────────────────────────────────────────
+
+function setPortfolioMode(on) {
+  portfolioMode = on;
+  $('portfolioToggle').classList.toggle('active', on);
+  $('sortRow').style.display          = on ? 'flex'         : 'none';
+  $('portfolioSummary').style.display = on ? 'block'        : 'none';
+  $('portfolioShareRow').style.display= on ? 'flex'         : 'none';
+  $('exportBtn').style.display        = on ? 'inline-block' : 'none';
+  if (currentItems.length) renderGrid(currentItems);
+}
+
+// ── view mode ──────────────────────────────────────────────────────────────
+
+function setViewMode(mode) {
+  viewMode = mode;
+  $('viewCards').classList.toggle('active', mode === 'cards');
+  $('viewList').classList.toggle('active', mode === 'list');
+  $('grid').style.display             = mode === 'cards' ? '' : 'none';
+  $('list-container').style.display   = mode === 'list'  ? 'block' : 'none';
+  if (mode === 'list' && currentItems.length) renderTable(currentItems);
+}
+
+// ── share link ─────────────────────────────────────────────────────────────
 
 function updateShareLink(tickers) {
   const raw = tickers.map(display).join(',');
-  const url = `${location.origin}${location.pathname}?t=${encodeURIComponent(raw)}`;
+  let url   = `${location.origin}${location.pathname}?t=${encodeURIComponent(raw)}`;
+
+  if (portfolioMode && $('includePortfolio')?.checked && Object.keys(portfolioData).length) {
+    url += `&p=${encodeURIComponent(btoa(JSON.stringify(portfolioData)))}`;
+  }
+
   $('shareLink').value = url;
 }
+
+// ── export CSV ──────────────────────────────────────────────────────────────
+
+function exportCSV() {
+  const items = currentItems.filter(i => i.ok);
+  if (!items.length) return;
+
+  const hasPos  = items.some(i => computeMetrics(i));
+  const headers = ['Ticker','Nome','Moeda','Preço Atual','Topo','Queda do Topo (%)','Var. Dia (%)'];
+  if (hasPos) headers.push('Qtd','Preço Médio','Valor Investido','Valor Atual','P&L','P&L (%)');
+
+  const rows = items.map(item => {
+    const row = [
+      display(item.ticker),
+      `"${item.name.replace(/"/g, '""')}"`,
+      item.currency,
+      item.current.toFixed(2),
+      item.peak.toFixed(2),
+      item.drop.toFixed(2),
+      item.changeDay != null ? item.changeDay.toFixed(2) : '',
+    ];
+    if (hasPos) {
+      const m = computeMetrics(item);
+      if (m) row.push(m.qty, m.avgPrice.toFixed(2), m.invested.toFixed(2), m.current.toFixed(2), m.plAbs.toFixed(2), m.plPct.toFixed(2));
+      else   row.push('', '', '', '', '', '');
+    }
+    return row.join(';');
+  });
+
+  const csv  = [headers.join(';'), ...rows].join('\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = `quedas-do-topo-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// ── event delegation: portfolio card buttons ───────────────────────────────
+
+$('grid').addEventListener('click', e => {
+  const addBtn    = e.target.closest('.add-pos-btn');
+  const editBtn   = e.target.closest('.edit-pos-btn');
+  const saveBtn   = e.target.closest('.save-pos-btn');
+  const cancelBtn = e.target.closest('.cancel-pos-btn');
+  const removeBtn = e.target.closest('.remove-pos-btn');
+
+  if (addBtn || editBtn) {
+    editingTicker = (addBtn || editBtn).dataset.ticker;
+    renderGrid(currentItems);
+    setTimeout(() => document.getElementById(`posQty_${editingTicker}`)?.focus(), 40);
+    return;
+  }
+
+  if (cancelBtn) {
+    editingTicker = null;
+    renderGrid(currentItems);
+    return;
+  }
+
+  if (removeBtn) {
+    delete portfolioData[removeBtn.dataset.ticker];
+    savePortfolioData();
+    editingTicker = null;
+    renderGrid(currentItems);
+    return;
+  }
+
+  if (saveBtn) {
+    const ticker = saveBtn.dataset.ticker;
+    const qtyEl  = document.getElementById(`posQty_${ticker}`);
+    const avgEl  = document.getElementById(`posAvg_${ticker}`);
+    if (!qtyEl || !avgEl) return;
+
+    const qty      = parseFloat(qtyEl.value.replace(',', '.'));
+    const avgPrice = parseFloat(avgEl.value.replace(',', '.'));
+    let valid = true;
+
+    if (isNaN(qty) || qty <= 0)      { qtyEl.classList.add('invalid'); valid = false; } else qtyEl.classList.remove('invalid');
+    if (isNaN(avgPrice) || avgPrice <= 0) { avgEl.classList.add('invalid'); valid = false; } else avgEl.classList.remove('invalid');
+    if (!valid) return;
+
+    portfolioData[ticker] = { qty, avgPrice };
+    savePortfolioData();
+    editingTicker = null;
+    renderGrid(currentItems);
+    updateShareLink(parseTickers($('tickerInput').value));
+  }
+});
 
 // ── inicialização ──────────────────────────────────────────────────────────
 
 async function init() {
+  loadPortfolioData();
+  loadFundamentalsCache();
+
   const params = new URLSearchParams(location.search);
   const t      = params.get('t');
+  const p      = params.get('p');
+
+  if (p) {
+    try {
+      portfolioData = JSON.parse(atob(decodeURIComponent(p)));
+      savePortfolioData();
+      setPortfolioMode(true);
+    } catch (_) {}
+  }
 
   if (t) {
-    // Lista veio pela URL — usa diretamente
     $('tickerInput').value = t.split(',').map(s => s.trim()).join(', ');
     load();
     return;
   }
 
-  // Lista salva pelo usuário tem prioridade sobre o arquivo padrão
   const saved = localStorage.getItem('quedas_tickers');
   if (saved) {
     $('tickerInput').value = saved;
@@ -528,15 +1318,10 @@ async function init() {
     return;
   }
 
-  // Sem nada salvo — carrega o arquivo padrão do repositório
   try {
     const r = await fetch('./tickers.txt?v=' + Date.now());
-    if (r.ok) {
-      $('tickerInput').value = (await r.text()).trim();
-      load();
-    } else {
-      $('status').textContent = 'Digite os tickers acima e clique em Atualizar.';
-    }
+    if (r.ok) { $('tickerInput').value = (await r.text()).trim(); load(); }
+    else $('status').textContent = 'Digite os tickers acima e clique em Atualizar.';
   } catch (_) {
     $('status').textContent = 'Digite os tickers acima e clique em Atualizar.';
   }
@@ -546,18 +1331,30 @@ async function init() {
 
 document.querySelectorAll('.period-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.period-btn')
-            .forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     period = btn.dataset.p;
     load();
   });
 });
 
+document.querySelectorAll('.sort-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    sortMode = btn.dataset.s;
+    renderGrid(currentItems);
+  });
+});
+
+$('portfolioToggle').addEventListener('click', () => setPortfolioMode(!portfolioMode));
+$('viewCards').addEventListener('click', () => setViewMode('cards'));
+$('viewList').addEventListener('click', () => setViewMode('list'));
 $('refreshBtn').addEventListener('click', load);
 
 $('clearBtn').addEventListener('click', async () => {
   localStorage.removeItem('quedas_tickers');
+  clearFundamentalsCache();
   try {
     const r = await fetch('./tickers.txt?v=' + Date.now());
     if (r.ok) $('tickerInput').value = (await r.text()).trim();
@@ -565,7 +1362,9 @@ $('clearBtn').addEventListener('click', async () => {
   } catch (_) { $('tickerInput').value = ''; }
   $('status').textContent = 'Lista salva removida — exibindo lista padrão.';
   $('grid').innerHTML = '';
+  $('list-container').innerHTML = '';
   $('shareLink').value = '';
+  currentItems = [];
 });
 
 $('copyBtn').addEventListener('click', async () => {
@@ -575,6 +1374,12 @@ $('copyBtn').addEventListener('click', async () => {
     setTimeout(() => { $('copyBtn').textContent = 'Copiar link'; }, 2000);
   } catch (_) {}
 });
+
+$('includePortfolio').addEventListener('change', () => {
+  updateShareLink(parseTickers($('tickerInput').value));
+});
+
+$('exportBtn').addEventListener('click', exportCSV);
 
 init();
 </script>
