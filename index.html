@@ -410,6 +410,192 @@
       #refreshBtn { margin-left: 0; width: 100%; }
       .summary-stats { grid-template-columns: repeat(2, 1fr); }
     }
+
+    /* ── investment guide ───────────────────────────────────────────── */
+    #guideBtn {
+      padding: 6px 14px; border-radius: 6px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 0.825rem;
+      transition: all 0.15s;
+    }
+    #guideBtn:hover { color: var(--text); border-color: var(--muted); }
+    #guideBtn.pulsing { border-color: var(--accent); color: var(--accent); }
+
+    #guideOverlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100; padding: 16px;
+      backdrop-filter: blur(4px);
+    }
+    #guideModal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%; max-width: 500px;
+      max-height: 92vh;
+      overflow-y: auto;
+      display: flex; flex-direction: column;
+    }
+    .guide-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 22px 14px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; background: var(--card); z-index: 1;
+    }
+    .guide-header-title { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+    .guide-close-x {
+      background: none; border: none; color: var(--muted);
+      cursor: pointer; font-size: 1.1rem; padding: 2px 6px;
+      border-radius: 4px; line-height: 1; transition: color 0.15s;
+    }
+    .guide-close-x:hover { color: var(--text); }
+    #guideContent { padding: 22px; }
+
+    .guide-progress {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 22px;
+    }
+    .guide-dots { display: flex; gap: 6px; }
+    .guide-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--border); transition: background 0.25s;
+    }
+    .guide-dot.done   { background: var(--accent); }
+    .guide-dot.active { background: var(--accent); box-shadow: 0 0 0 3px rgba(99,102,241,0.25); }
+    .guide-step-label { font-size: 0.72rem; color: var(--muted); }
+
+    .guide-question {
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--text); margin-bottom: 18px; line-height: 1.35;
+    }
+    .guide-options { display: flex; flex-direction: column; gap: 9px; }
+    .guide-option {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 14px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--bg);
+      cursor: pointer; text-align: left; width: 100%;
+      transition: all 0.15s;
+    }
+    .guide-option:hover   { border-color: var(--accent); background: rgba(99,102,241,0.06); }
+    .guide-option.selected { border-color: var(--accent); background: rgba(99,102,241,0.13); }
+    .guide-opt-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .guide-opt-text { display: flex; flex-direction: column; gap: 2px; }
+    .guide-opt-text strong { font-size: 0.86rem; color: var(--text); font-weight: 600; }
+    .guide-opt-text small  { font-size: 0.76rem; color: var(--muted); }
+
+    .guide-nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 22px; gap: 8px;
+    }
+    .guide-back-btn {
+      padding: 8px 16px; border-radius: 8px;
+      border: 1px solid var(--border); background: transparent;
+      color: var(--muted); cursor: pointer; font-size: 0.84rem;
+      transition: all 0.15s;
+    }
+    .guide-back-btn:hover { color: var(--text); border-color: var(--muted); }
+    .guide-next-btn {
+      padding: 9px 22px; border-radius: 8px;
+      border: none; background: var(--accent);
+      color: #fff; cursor: pointer; font-size: 0.875rem; font-weight: 600;
+      transition: opacity 0.15s;
+    }
+    .guide-next-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .guide-next-btn:not(:disabled):hover { opacity: 0.85; }
+
+    .guide-profile-header {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 16px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--bg);
+      margin-bottom: 20px;
+    }
+    .guide-profile-icon { font-size: 2rem; flex-shrink: 0; margin-top: 2px; }
+    .guide-profile-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .guide-profile-summary { font-size: 0.81rem; color: var(--muted); line-height: 1.5; }
+
+    .guide-section { margin-bottom: 20px; }
+    .guide-section-title {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px; color: var(--muted); margin-bottom: 10px;
+    }
+    .guide-strategy-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+    .guide-strategy-list li {
+      font-size: 0.81rem; color: var(--text); padding-left: 14px;
+      position: relative; line-height: 1.5;
+    }
+    .guide-strategy-list li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
+
+    .guide-result-list { display: flex; flex-direction: column; gap: 7px; }
+    .guide-result-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 8px;
+    }
+    .guide-result-ticker { display: flex; flex-direction: column; gap: 2px; min-width: 54px; }
+    .guide-result-ticker strong { font-family: ui-monospace, monospace; font-size: 0.84rem; color: var(--text); }
+    .guide-result-tags { display: flex; gap: 5px; flex-wrap: wrap; flex: 1; }
+    .guide-result-tag {
+      font-size: 0.67rem; padding: 2px 7px;
+      border-radius: 999px; border: 1px solid var(--border); color: var(--muted);
+    }
+    .guide-result-score { display: flex; gap: 2px; font-size: 0.78rem; white-space: nowrap; }
+
+    .guide-moment {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+    }
+    .guide-moment-label { font-size: 0.84rem; font-weight: 700; margin-bottom: 5px; }
+    .guide-moment p { font-size: 0.79rem; color: var(--muted); line-height: 1.5; margin: 0; }
+
+    .guide-spin {
+      text-align: center; padding: 40px 0; color: var(--muted); font-size: 0.85rem;
+    }
+    .guide-spin-icon {
+      font-size: 2rem; margin-bottom: 10px;
+      animation: spin 1.5s linear infinite; display: block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .guide-action-btn {
+      padding: 9px 20px; border-radius: 8px;
+      border: none; cursor: pointer; font-size: 0.875rem; font-weight: 600;
+      transition: opacity 0.15s;
+    }
+    .guide-action-btn:hover { opacity: 0.85; }
+    .guide-action-primary   { background: var(--accent); color: #fff; }
+    .guide-action-secondary { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+    .guide-action-secondary:hover { color: var(--text); border-color: var(--muted); }
+
+    .guide-question-sub {
+      font-size: 0.77rem; color: var(--muted); margin: -10px 0 14px; line-height: 1.5;
+    }
+    .guide-alloc { }
+    .guide-alloc-bar {
+      display: flex; height: 10px; border-radius: 5px; overflow: hidden;
+      gap: 2px; margin-bottom: 8px;
+    }
+    .guide-alloc-legend {
+      display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.72rem; color: var(--muted);
+    }
+    .guide-products { display: flex; flex-direction: column; gap: 10px; }
+    .guide-product-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.4px; margin-bottom: 5px;
+    }
+    .guide-product-items { display: flex; gap: 5px; flex-wrap: wrap; }
+    .guide-product-tag {
+      font-size: 0.72rem; padding: 3px 9px; border-radius: 999px;
+      border: 1px solid var(--border); color: var(--text); background: var(--bg);
+    }
+    .guide-product-tip { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+    .guide-disclaimer {
+      padding: 12px 22px;
+      border-top: 1px solid var(--border);
+      font-size: 0.7rem; color: var(--muted); line-height: 1.5;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -466,6 +652,7 @@
     <button class="view-btn" id="viewList">≡ Lista</button>
     <button id="refreshBtn">↻ Atualizar</button>
     <button id="clearBtn" title="Apagar lista salva e voltar ao padrão">✕ Limpar salvo</button>
+    <button id="guideBtn" title="Descubra qual tipo de investimento combina com você">◈ Guia</button>
   </div>
 
   <div class="sort-row" id="sortRow" style="display:none">
@@ -493,6 +680,20 @@
   </div>
 
   <button id="exportBtn" style="display:none">⬇ Exportar CSV</button>
+</div>
+
+<div id="guideOverlay" style="display:none" role="dialog" aria-modal="true" aria-label="Guia de Investimento">
+  <div id="guideModal">
+    <div class="guide-header">
+      <span class="guide-header-title">◈ Guia de Investimento</span>
+      <button class="guide-close-x" id="guideCloseX" aria-label="Fechar">✕</button>
+    </div>
+    <div id="guideContent"></div>
+    <div class="guide-disclaimer">
+      Este guia é meramente educacional e não constitui recomendação de investimento.
+      Consulte um profissional certificado antes de tomar qualquer decisão financeira.
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1401,6 +1602,566 @@ $('includePortfolio').addEventListener('change', () => {
 });
 
 $('exportBtn').addEventListener('click', exportCSV);
+
+// ── investment guide ────────────────────────────────────────────────────────
+
+const GUIDE_QUESTIONS = [
+  {
+    id: 'emergency',
+    text: 'Você tem reserva de emergência?',
+    sub: 'Dinheiro em investimento líquido para cobrir 3 a 6 meses de despesas.',
+    options: [
+      { id: 'yes',     icon: '✅', label: 'Sim, completa',         desc: '6+ meses de despesas em investimento com liquidez diária' },
+      { id: 'partial', icon: '🟡', label: 'Tenho, mas incompleta', desc: 'Menos de 6 meses guardados ou misturado com outros objetivos' },
+      { id: 'no',      icon: '❌', label: 'Ainda não tenho',       desc: 'Sem reserva, ou só poupança sem distinção de objetivo' },
+    ],
+  },
+  {
+    id: 'goal',
+    text: 'Qual é o seu objetivo principal?',
+    options: [
+      { id: 'emergency',    icon: '🏗', label: 'Construir minha reserva',       desc: 'Prioridade agora é ter segurança antes de qualquer investimento' },
+      { id: 'income',       icon: '💰', label: 'Gerar renda passiva',           desc: 'Dividendos e aluguéis de FIIs para complementar renda' },
+      { id: 'retirement',   icon: '🌅', label: 'Aposentadoria / IF',            desc: 'Independência financeira no longo prazo' },
+      { id: 'accumulation', icon: '🎯', label: 'Acumulação com prazo definido', desc: 'Imóvel, veículo, viagem — objetivo com data' },
+      { id: 'growth',       icon: '📈', label: 'Crescimento do patrimônio',     desc: 'Multiplicar capital sem prazo fixo' },
+    ],
+  },
+  {
+    id: 'risk',
+    text: 'Qual a sua tolerância a risco?',
+    options: [
+      { id: 'conservative', icon: '🛡', label: 'Conservador', desc: 'Prefiro segurança — aceito retornos menores para dormir tranquilo' },
+      { id: 'moderate',     icon: '⚖', label: 'Moderado',    desc: 'Aceito oscilações temporárias se o retorno potencial valer a pena' },
+      { id: 'aggressive',   icon: '🚀', label: 'Arrojado',    desc: 'Aceito grandes oscilações em busca do máximo retorno no longo prazo' },
+    ],
+  },
+  {
+    id: 'horizon',
+    text: 'Quando vai precisar desse dinheiro?',
+    options: [
+      { id: 'short',  icon: '⏱', label: 'Menos de 2 anos',  desc: 'Preciso de liquidez no curto prazo' },
+      { id: 'medium', icon: '📅', label: 'Entre 2 e 7 anos', desc: 'Médio prazo — consigo esperar ciclos' },
+      { id: 'long',   icon: '🌱', label: 'Mais de 7 anos',   desc: 'Longo prazo — o tempo trabalha a meu favor' },
+    ],
+  },
+  {
+    id: 'experience',
+    text: 'Como está sua carteira hoje?',
+    options: [
+      { id: 'none',    icon: '🌱', label: 'Estou começando agora',  desc: 'Nunca investi ou tenho só poupança' },
+      { id: 'fixed',   icon: '📄', label: 'Só renda fixa',         desc: 'CDB, Tesouro Direto, LCI/LCA' },
+      { id: 'stocks',  icon: '📊', label: 'Tenho ações ou FIIs',   desc: 'Já opero renda variável, quero melhorar' },
+      { id: 'diverse', icon: '💼', label: 'Carteira diversificada', desc: 'Mix de renda fixa e variável, buscando otimizar' },
+    ],
+  },
+];
+
+const GUIDE_PROFILES = {
+  dividendista: {
+    name: 'Dividendista',
+    icon: '💰',
+    color: '#22c55e',
+    summary: 'Você prioriza renda passiva e consistência. Empresas maduras que distribuem lucro regularmente são o seu foco.',
+    strategy: [
+      'Busque DY (Dividend Yield) acima de 5% com histórico de pagamentos consistente',
+      'Prefira setores defensivos: bancos, elétricas, saneamento, seguradoras',
+      'Verifique o payout — acima de 90% pode não ser sustentável no longo prazo',
+      'P/L abaixo de 15 garante que você não está pagando caro pela renda gerada',
+      'Quedas do topo acima de 15% podem ser boas janelas de entrada para travar um DY maior',
+    ],
+    score(item, fund) {
+      let s = 0;
+      if (fund?.dy != null) {
+        if (fund.dy >= 8) s += 5;
+        else if (fund.dy >= 6) s += 4;
+        else if (fund.dy >= 4) s += 2;
+        else if (fund.dy >= 2) s += 1;
+      }
+      if (fund?.pe != null && fund.pe > 0 && fund.pe <= 20) s += 1;
+      if (fund?.roe != null && fund.roe > 5) s += 1;
+      if (fund?.margin != null && fund.margin > 0) s += 1;
+      return s;
+    },
+  },
+  crescimento: {
+    name: 'Crescimento',
+    icon: '📈',
+    color: '#6366f1',
+    summary: 'Você quer multiplicar patrimônio. Empresas com alto retorno sobre capital e expansão de margens são o seu alvo.',
+    strategy: [
+      'Foque em ROE acima de 15% — empresas que sabem alocar capital eficientemente',
+      'Margem líquida positiva e crescente sinaliza escala e vantagem competitiva',
+      'Aceite P/L mais elevado se o crescimento de lucros justificar o múltiplo',
+      'Aproveite quedas expressivas do topo como janela de entrada em boas teses',
+      'EV/EBITDA abaixo de 15 ajuda a filtrar empresas com preço ainda razoável',
+    ],
+    score(item, fund) {
+      let s = 0;
+      if (fund?.roe != null) {
+        if (fund.roe >= 25) s += 5;
+        else if (fund.roe >= 15) s += 3;
+        else if (fund.roe >= 8)  s += 1;
+      }
+      if (fund?.margin != null) {
+        if (fund.margin >= 20) s += 3;
+        else if (fund.margin >= 10) s += 2;
+        else if (fund.margin > 0)   s += 1;
+      }
+      if (fund?.evEbitda != null && fund.evEbitda > 0 && fund.evEbitda < 20) s += 1;
+      if (item.drop <= -15) s += 1;
+      return s;
+    },
+  },
+  valor: {
+    name: 'Value Investor',
+    icon: '🔍',
+    color: '#eab308',
+    summary: 'Você busca margem de segurança. Empresas sólidas negociadas com desconto em relação ao valor intrínseco.',
+    strategy: [
+      'P/L abaixo de 10 com empresa rentável é historicamente um bom sinal de desconto',
+      'P/VPA abaixo de 1,5 indica possível desconto sobre o patrimônio líquido',
+      'EV/EBITDA abaixo de 8 sugere empresa barata pelo fluxo operacional',
+      'Combine com quedas do topo significativas para ampliar a margem de segurança',
+      'ROE positivo e margem líquida positiva são pré-requisitos mínimos de qualidade',
+    ],
+    score(item, fund) {
+      let s = 0;
+      if (fund?.pe != null && fund.pe > 0) {
+        if (fund.pe < 7)       s += 5;
+        else if (fund.pe < 12) s += 3;
+        else if (fund.pe < 18) s += 1;
+      }
+      if (fund?.pb != null) {
+        if (fund.pb < 1)       s += 4;
+        else if (fund.pb < 2)  s += 2;
+        else if (fund.pb < 3)  s += 1;
+      }
+      if (fund?.evEbitda != null && fund.evEbitda > 0 && fund.evEbitda < 10) s += 2;
+      if (fund?.roe != null && fund.roe > 0) s += 1;
+      if (item.drop <= -20) s += 1;
+      return s;
+    },
+  },
+  especulador: {
+    name: 'Caçador de Oportunidades',
+    icon: '⚡',
+    color: '#f97316',
+    summary: 'Você quer aproveitar correções fortes para ganhos acelerados. Alta convicção, prazo mais curto e gestão de risco rigorosa.',
+    strategy: [
+      'Priorize as maiores quedas do topo em empresas que ainda têm fundamentos saudáveis',
+      'Margem líquida positiva é o mínimo de saúde — empresa em prejuízo é risco elevado',
+      'ROE positivo indica que a empresa ainda gera valor mesmo em momento adverso',
+      'Defina stop-loss e alvo antes de entrar — disciplina é mais importante que análise',
+      'Quedas acima de 40% do topo histórico são raras e costumam gerar retornos expressivos quando o cenário se normaliza',
+    ],
+    score(item, fund) {
+      let s = 0;
+      if (item.drop <= -50)      s += 5;
+      else if (item.drop <= -40) s += 4;
+      else if (item.drop <= -30) s += 3;
+      else if (item.drop <= -20) s += 2;
+      else if (item.drop <= -10) s += 1;
+      if (fund?.margin != null && fund.margin > 0) s += 1;
+      if (fund?.roe != null && fund.roe > 0) s += 1;
+      return s;
+    },
+  },
+};
+
+const ALLOC_COLORS  = { fixedLiquid: '#64748b', fixedLong: '#22c55e', fiis: '#eab308', stocks: '#6366f1' };
+const ALLOC_LABELS  = { fixedLiquid: 'Liquidez', fixedLong: 'Renda Fixa', fiis: 'FIIs', stocks: 'Ações' };
+const ALLOC_ORDER   = ['fixedLiquid', 'fixedLong', 'fiis', 'stocks'];
+
+const GUIDE_SCENARIOS = {
+  no_reserve: {
+    name: 'Construtor de Reserva', icon: '🏗', color: '#6366f1',
+    summary: 'Antes de qualquer investimento, o passo mais importante é ter uma reserva de emergência. Sem ela, qualquer imprevisto pode forçar você a vender no pior momento.',
+    allocation: { fixedLiquid: 100, fixedLong: 0, fiis: 0, stocks: 0 },
+    steps: [
+      'Defina sua meta: 6 meses de despesas mensais (ex: gasto R$ 3.000/mês → meta R$ 18.000)',
+      'Invista só em produtos com liquidez diária: Tesouro Selic ou CDB com liquidez diária',
+      'Conta remunerada (Nubank, Inter, C6) é um ponto de partida — rende próximo ao CDI sem carência',
+      'Automatize um aporte fixo todo mês até atingir a meta — consistência bate estratégia',
+      'Só depois de completar a reserva, avance para outros objetivos',
+    ],
+    fixedLiquidProducts: ['Tesouro Selic (B3)', 'CDB com liquidez diária', 'Conta remunerada 100% CDI'],
+    fixedLongProducts: [], fiiTips: null, stockProfile: null,
+  },
+  building_reserve: {
+    name: 'Completando a Base', icon: '🟡', color: '#eab308',
+    summary: 'Você tem uma reserva parcial — bom começo. A prioridade é completá-la antes de ampliar exposição a risco.',
+    allocation: { fixedLiquid: 80, fixedLong: 20, fiis: 0, stocks: 0 },
+    steps: [
+      'Continue aportando na reserva até atingir 6 meses de despesas em liquidez',
+      'Os 20% em renda fixa mais longa são para o próximo objetivo — IPCA+ ou CDB curto',
+      'Evite renda variável por agora: um imprevisto pode forçar venda no prejuízo',
+      'Quando a reserva estiver completa, reveja seu plano com mais liberdade de risco',
+    ],
+    fixedLiquidProducts: ['Tesouro Selic', 'CDB liquidez diária'],
+    fixedLongProducts: ['Tesouro IPCA+ curto prazo', 'CDB 1–2 anos'],
+    fiiTips: null, stockProfile: null,
+  },
+  conservative_accumulation: {
+    name: 'Acumulação Segura', icon: '🎯', color: '#22c55e',
+    summary: 'Objetivo com prazo definido e perfil conservador. Priorize previsibilidade — renda fixa atrelada ao IPCA garante poder de compra real.',
+    allocation: { fixedLiquid: 20, fixedLong: 65, fiis: 15, stocks: 0 },
+    steps: [
+      'IPCA+ garante proteção real: o dinheiro cresce acima da inflação até o prazo do objetivo',
+      'Prefira CDB / LCI / LCA com vencimento próximo à data do objetivo para evitar marcação a mercado',
+      'FIIs de papel (CRI/CRA) pagam rendimentos mensais isentos de IR para PF',
+      'Mantenha 20% em liquidez para imprevistos e eventuais oportunidades',
+      'Evite ações nesse objetivo: volatilidade é inimiga de prazo fixo',
+    ],
+    fixedLiquidProducts: ['Tesouro Selic', 'CDB liquidez diária'],
+    fixedLongProducts: ['Tesouro IPCA+ (vencimento no prazo do objetivo)', 'LCI / LCA isento de IR', 'CDB pré-fixado se taxa atrativa'],
+    fiiTips: 'FIIs de papel com rendimentos mensais isentos de IR para PF (ex: KNRI, HGLG)',
+    stockProfile: null,
+  },
+  conservative_income: {
+    name: 'Renda com Segurança', icon: '💰', color: '#22c55e',
+    summary: 'Você quer renda passiva com risco baixo. Renda fixa longa + FIIs + ações pagadoras de dividendos formam uma carteira geradora de caixa recorrente.',
+    allocation: { fixedLiquid: 15, fixedLong: 40, fiis: 30, stocks: 15 },
+    steps: [
+      'FIIs pagam rendimentos mensais isentos de IR — busque DY acima de 8% com gestão sólida',
+      'Renda fixa longa (IPCA+) garante previsibilidade e proteção inflacionária no longo prazo',
+      'Ações de dividendos complementam: bancos, elétricas, saneamento com DY consistente',
+      'Reinvista os rendimentos recebidos para acelerar a composição (juros sobre juros)',
+      'Mantenha liquidez para rebalancear e aproveitar quedas expressivas',
+    ],
+    fixedLiquidProducts: ['Tesouro Selic', 'CDB liquidez diária'],
+    fixedLongProducts: ['Tesouro IPCA+', 'LCI / LCA isento de IR', 'CDB 3–5 anos'],
+    fiiTips: 'FIIs de tijolo (shoppings, logística) + papel (CRI). Foco em DY consistente e gestão reconhecida',
+    stockProfile: 'dividendista',
+  },
+  moderate_income: {
+    name: 'Renda e Crescimento', icon: '💼', color: '#6366f1',
+    summary: 'Você quer renda passiva mas aceita volatilidade. FIIs + ações de dividendos + renda fixa equilibram geração de caixa mensal e crescimento real do patrimônio.',
+    allocation: { fixedLiquid: 10, fixedLong: 20, fiis: 35, stocks: 35 },
+    steps: [
+      'FIIs são o coração desse portfólio: rendimento mensal + potencial de valorização das cotas',
+      'Diversifique em FIIs de segmentos diferentes: logística, lajes, shoppings, papel',
+      'Ações de dividendos: bancos, elétricas, empresas de commodities maduras',
+      'Renda fixa como colchão para rebalancear em quedas de mercado',
+      'Objetivo: yield on cost crescente — o DY sobre seu preço médio de compra cresce com o tempo',
+    ],
+    fixedLiquidProducts: ['Tesouro Selic', 'CDB liquidez diária'],
+    fixedLongProducts: ['Tesouro IPCA+', 'LCI / LCA'],
+    fiiTips: 'Busque 10+ FIIs para diversificar gestores e segmentos. P/VP abaixo de 1,1 com bom histórico de DY',
+    stockProfile: 'dividendista',
+  },
+  moderate_growth: {
+    name: 'Crescimento Balanceado', icon: '📈', color: '#6366f1',
+    summary: 'Você quer crescimento expressivo com risco controlado. Ações de qualidade + FIIs + renda fixa formam o equilíbrio entre retorno e proteção.',
+    allocation: { fixedLiquid: 10, fixedLong: 15, fiis: 25, stocks: 50 },
+    steps: [
+      'Ações são o motor de crescimento — foque em ROE alto e vantagem competitiva duradoura',
+      'FIIs diversificam a carteira e geram renda mensal para reinvestir nas quedas',
+      'Renda fixa curta como munição: ter caixa quando o mercado cai é vantagem real',
+      'Estude os fundamentos antes de comprar — entenda o negócio, não só o preço',
+      'Aportes regulares independente do preço (preço médio) eliminam o risco de timing',
+    ],
+    fixedLiquidProducts: ['Tesouro Selic', 'CDB liquidez diária'],
+    fixedLongProducts: ['Tesouro IPCA+', 'LCI / LCA'],
+    fiiTips: 'FIIs de crescimento: logística, galpões, lajes corporativas em regiões premium',
+    stockProfile: 'crescimento',
+  },
+  moderate_retirement: {
+    name: 'Independência Financeira', icon: '🌅', color: '#6366f1',
+    summary: 'Independência financeira é uma maratona. Consistência nos aportes e diversificação inteligente valem mais do que acertar o timing. O tempo é seu maior aliado.',
+    allocation: { fixedLiquid: 10, fixedLong: 15, fiis: 30, stocks: 45 },
+    steps: [
+      'Defina sua renda passiva alvo — regra do 4%: patrimônio necessário = 25× renda anual desejada',
+      'FIIs geram renda mensal para cobrir despesas na IF sem precisar vender ativos',
+      'Ações crescem o patrimônio — mantenha-as mesmo em crises, especialmente na fase de acúmulo',
+      'À medida que se aproximar da IF, migre gradualmente para ativos geradores de renda',
+      'Previdência privada (PGBL se deduz IR, VGBL se não) pode complementar com eficiência fiscal',
+    ],
+    fixedLiquidProducts: ['Tesouro Selic (reserva)', 'PGBL / VGBL para eficiência fiscal'],
+    fixedLongProducts: ['Tesouro IPCA+ longo prazo (2045, 2055)', 'CDB longo prazo'],
+    fiiTips: 'FIIs de renda recorrente: shoppings consolidados, lajes AAA, FIIs de papel high grade',
+    stockProfile: 'crescimento',
+  },
+  aggressive_growth: {
+    name: 'Crescimento Acelerado', icon: '🚀', color: '#f97316',
+    summary: 'Alto apetite a risco e horizonte longo. Ações são seu principal veículo — mas fundamentos sólidos e disciplina emocional são insubstituíveis.',
+    allocation: { fixedLiquid: 10, fixedLong: 5, fiis: 15, stocks: 70 },
+    steps: [
+      'Mantenha no mínimo 10% em liquidez — munição para comprar nas quedas expressivas',
+      'Estude as empresas: balanço, vantagem competitiva, qualidade da gestão, histórico de alocação de capital',
+      'Concentre em suas melhores ideias (10–15 ações) — diversificação excessiva dilui os ganhos',
+      'Quedas de mercado são oportunidade — tenha um plano de aportes para momentos de pânico',
+      'Revise a carteira anualmente, não diariamente: reatividade emocional é o maior destruidor de retorno',
+    ],
+    fixedLiquidProducts: ['Tesouro Selic (reserva + oportunismo)'],
+    fixedLongProducts: ['Mínimo — prioridade é renda variável'],
+    fiiTips: 'FIIs de crescimento (logística, data centers) como diversificador com renda mensal',
+    stockProfile: 'crescimento',
+  },
+  aggressive_opportunity: {
+    name: 'Caçador de Oportunidades', icon: '⚡', color: '#ef4444',
+    summary: 'Você quer aproveitar correções expressivas para ganhos acelerados. Alta convicção, gestão de risco rigorosa e disciplina emocional são imprescindíveis.',
+    allocation: { fixedLiquid: 15, fixedLong: 0, fiis: 10, stocks: 75 },
+    steps: [
+      'Mantenha liquidez para comprar nos momentos de pânico — é quando surgem as melhores oportunidades',
+      'Foque nas maiores quedas do topo em empresas com fundamentos ainda intactos',
+      'Defina stop-loss e alvo antes de entrar — nunca mude o stop depois de estar posicionado',
+      'Gestão do tamanho de posição é mais importante do que a qualidade da análise',
+      'Empresa com prejuízo recorrente ou dívida alta é especulação pura — risco assimétrico para baixo',
+    ],
+    fixedLiquidProducts: ['Tesouro Selic (munição para oportunidades)'],
+    fixedLongProducts: [],
+    fiiTips: 'FIIs negociados abaixo do valor patrimonial (P/VP < 0,9) com bom histórico de gestão',
+    stockProfile: 'especulador',
+  },
+};
+
+function determineScenario(answers) {
+  const { emergency, goal, risk, horizon } = answers;
+  if (emergency === 'no' || goal === 'emergency') return 'no_reserve';
+  if (emergency === 'partial') return 'building_reserve';
+
+  if (goal === 'accumulation') {
+    if (risk === 'aggressive' && horizon !== 'short') return 'moderate_growth';
+    return 'conservative_accumulation';
+  }
+  if (goal === 'income')     return risk === 'conservative' ? 'conservative_income' : 'moderate_income';
+  if (goal === 'retirement') return risk === 'aggressive'   ? 'aggressive_growth'   : 'moderate_retirement';
+  if (goal === 'growth') {
+    if (risk === 'aggressive') return horizon === 'short' ? 'aggressive_opportunity' : 'aggressive_growth';
+    return 'moderate_growth';
+  }
+  if (risk === 'conservative') return 'conservative_income';
+  if (risk === 'aggressive')   return 'aggressive_growth';
+  return 'moderate_growth';
+}
+
+function guideMarketMoment(items) {
+  const ok = items.filter(i => i.ok);
+  if (!ok.length) return null;
+  const avg = ok.reduce((s, i) => s + i.drop, 0) / ok.length;
+  if (avg <= -35) return { label: 'Mercado em forte correção',          color: '#ef4444', desc: `Queda média de ${avg.toFixed(1)}% do topo. Momentos assim geram oportunidades históricas, mas o pânico pode piorar antes de melhorar. Aportes graduais reduzem o risco de timing.` };
+  if (avg <= -20) return { label: 'Mercado em correção moderada',       color: '#f97316', desc: `Queda média de ${avg.toFixed(1)}% do topo. Bom momento para revisitar teses. Selecione empresas com fundamentos intactos que caíram mais do que merecem.` };
+  if (avg <= -8)  return { label: 'Mercado levemente abaixo do topo',   color: '#eab308', desc: `Queda média de ${avg.toFixed(1)}% do topo. Seletividade é chave — pesquise o motivo de cada queda antes de entrar.` };
+  return              { label: 'Mercado próximo do topo',               color: '#22c55e', desc: `Queda média de ${avg.toFixed(1)}% do topo. A maioria da sua lista está perto do pico histórico. Aportes regulares sempre fazem sentido; o preço de entrada importa.` };
+}
+
+let guideAnswers = {};
+let guideStep    = 1;
+
+function openGuide() {
+  guideAnswers = {};
+  guideStep    = 1;
+  renderGuideStep();
+  $('guideOverlay').style.display = 'flex';
+}
+
+function closeGuide() {
+  $('guideOverlay').style.display = 'none';
+}
+
+function renderGuideStep() {
+  const total = GUIDE_QUESTIONS.length;
+  if (guideStep > total) { renderGuideResults(); return; }
+
+  const q       = GUIDE_QUESTIONS[guideStep - 1];
+  const dotsHTML = Array.from({ length: total }, (_, i) => {
+    const cls = i + 1 < guideStep ? 'done' : i + 1 === guideStep ? 'active' : '';
+    return `<span class="guide-dot ${cls}"></span>`;
+  }).join('');
+
+  const optsHTML = q.options.map(opt => `
+    <button class="guide-option ${guideAnswers[q.id] === opt.id ? 'selected' : ''}"
+            data-qid="${q.id}" data-oid="${opt.id}">
+      <span class="guide-opt-icon">${opt.icon}</span>
+      <span class="guide-opt-text">
+        <strong>${opt.label}</strong>
+        <small>${opt.desc}</small>
+      </span>
+    </button>`).join('');
+
+  const hasAnswer = !!guideAnswers[q.id];
+  const subHTML   = q.sub ? `<p class="guide-question-sub">${q.sub}</p>` : '';
+  $('guideContent').innerHTML = `
+    <div class="guide-progress">
+      <div class="guide-dots">${dotsHTML}</div>
+      <span class="guide-step-label">Passo ${guideStep} de ${total}</span>
+    </div>
+    <h3 class="guide-question">${q.text}</h3>
+    ${subHTML}
+    <div class="guide-options">${optsHTML}</div>
+    <div class="guide-nav">
+      ${guideStep > 1
+        ? `<button class="guide-back-btn guide-action-btn guide-action-secondary">← Voltar</button>`
+        : `<span></span>`}
+      <button class="guide-next-btn guide-action-btn guide-action-primary" ${hasAnswer ? '' : 'disabled'}>
+        ${guideStep === total ? 'Ver resultado →' : 'Próximo →'}
+      </button>
+    </div>`;
+
+  $('guideContent').querySelectorAll('.guide-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      guideAnswers[btn.dataset.qid] = btn.dataset.oid;
+      renderGuideStep();
+    });
+  });
+  $('guideContent').querySelector('.guide-next-btn')?.addEventListener('click', () => {
+    if (!guideAnswers[q.id]) return;
+    guideStep++;
+    renderGuideStep();
+  });
+  $('guideContent').querySelector('.guide-back-btn')?.addEventListener('click', () => {
+    guideStep--;
+    renderGuideStep();
+  });
+}
+
+async function renderGuideResults() {
+  $('guideContent').innerHTML = `
+    <div class="guide-spin">
+      <span class="guide-spin-icon">⏳</span>
+      Analisando seu perfil…
+    </div>`;
+
+  const scenario    = GUIDE_SCENARIOS[determineScenario(guideAnswers)];
+  const moment      = guideMarketMoment(currentItems);
+  const okItems     = currentItems.filter(i => i.ok);
+  const stockProf   = scenario.stockProfile ? GUIDE_PROFILES[scenario.stockProfile] : null;
+
+  // Fetch fundamentals only if the scenario uses stocks
+  const fundsMap = {};
+  if (stockProf && okItems.length) {
+    for (const item of okItems) {
+      fundsMap[item.ticker] = await getFundamentals(item.ticker);
+      if ($('guideOverlay').style.display === 'none') return;
+    }
+  }
+
+  // ── allocation bar ─────────────────────────────────────────────────────────
+  const alloc = scenario.allocation;
+  const allocBarHTML = ALLOC_ORDER
+    .filter(k => alloc[k] > 0)
+    .map(k => `<div style="width:${alloc[k]}%;background:${ALLOC_COLORS[k]};flex:none" title="${ALLOC_LABELS[k]} ${alloc[k]}%"></div>`)
+    .join('');
+  const allocLegendHTML = ALLOC_ORDER
+    .filter(k => alloc[k] > 0)
+    .map(k => `<span><span style="color:${ALLOC_COLORS[k]}">■</span> ${ALLOC_LABELS[k]} ${alloc[k]}%</span>`)
+    .join('');
+
+  // ── products ───────────────────────────────────────────────────────────────
+  const productGroup = (label, color, items, tip) => {
+    if (!items?.length && !tip) return '';
+    const tagsHTML = (items || []).map(p => `<span class="guide-product-tag">${p}</span>`).join('');
+    const tipHTML  = tip ? `<div class="guide-product-tip">${tip}</div>` : '';
+    return `
+      <div class="guide-product-group">
+        <div class="guide-product-label" style="color:${color}">${label}</div>
+        ${tagsHTML ? `<div class="guide-product-items">${tagsHTML}</div>` : ''}
+        ${tipHTML}
+      </div>`;
+  };
+
+  const productsHTML = [
+    productGroup(ALLOC_LABELS.fixedLiquid, ALLOC_COLORS.fixedLiquid, scenario.fixedLiquidProducts, null),
+    productGroup(ALLOC_LABELS.fixedLong,   ALLOC_COLORS.fixedLong,   scenario.fixedLongProducts,   null),
+    alloc.fiis > 0 ? productGroup(ALLOC_LABELS.fiis, ALLOC_COLORS.fiis, null, scenario.fiiTips) : '',
+  ].join('');
+
+  // ── stock picks from watchlist ─────────────────────────────────────────────
+  let stockSectionHTML = '';
+  if (stockProf && okItems.length) {
+    const scored = okItems
+      .map(item => ({ item, fund: fundsMap[item.ticker], score: stockProf.score(item, fundsMap[item.ticker]) }))
+      .filter(s => s.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5);
+
+    const picksHTML = scored.length
+      ? scored.map(({ item, fund, score }) => {
+          const d     = display(item.ticker);
+          const dCol  = dropStyle(item.drop);
+          const dots  = Math.min(score, 5);
+          const dotsH = Array.from({ length: 5 }, (_, i) =>
+            `<span style="color:${i < dots ? stockProf.color : 'var(--border)'}">●</span>`).join('');
+          const tags  = [];
+          if (fund?.dy  != null)              tags.push(`DY ${fund.dy.toFixed(1)}%`);
+          if (fund?.pe  != null && fund.pe>0) tags.push(`P/L ${fund.pe.toFixed(1)}`);
+          if (fund?.pb  != null)              tags.push(`P/VPA ${fund.pb.toFixed(1)}`);
+          if (fund?.roe != null)              tags.push(`ROE ${fund.roe.toFixed(1)}%`);
+          return `
+            <div class="guide-result-item">
+              <div class="guide-result-ticker">
+                <strong>${d}</strong>
+                <span style="color:${dCol};font-size:0.72rem">${item.drop.toFixed(1)}%</span>
+              </div>
+              <div class="guide-result-tags">${tags.map(t => `<span class="guide-result-tag">${t}</span>`).join('')}</div>
+              <div class="guide-result-score">${dotsH}</div>
+            </div>`;
+        }).join('')
+      : `<p style="color:var(--muted);font-size:0.82rem;margin:0">Carregue seus tickers para ver recomendações da sua lista.</p>`;
+
+    stockSectionHTML = `
+      <div class="guide-section">
+        <div class="guide-section-title">Ações — perfil <span style="color:${stockProf.color}">${stockProf.name}</span> da sua lista</div>
+        <div class="guide-result-list">${picksHTML}</div>
+      </div>`;
+  }
+
+  const stepsHTML  = scenario.steps.map(s => `<li>${s}</li>`).join('');
+  const momentHTML = moment ? `
+    <div class="guide-moment">
+      <div class="guide-moment-label" style="color:${moment.color}">${moment.label}</div>
+      <p>${moment.desc}</p>
+    </div>` : '';
+
+  $('guideContent').innerHTML = `
+    <div class="guide-profile-header">
+      <div class="guide-profile-icon" style="color:${scenario.color}">${scenario.icon}</div>
+      <div>
+        <div class="guide-profile-title">Perfil: <span style="color:${scenario.color}">${scenario.name}</span></div>
+        <div class="guide-profile-summary">${scenario.summary}</div>
+      </div>
+    </div>
+
+    <div class="guide-section">
+      <div class="guide-section-title">Alocação sugerida</div>
+      <div class="guide-alloc">
+        <div class="guide-alloc-bar">${allocBarHTML}</div>
+        <div class="guide-alloc-legend">${allocLegendHTML}</div>
+      </div>
+    </div>
+
+    <div class="guide-section">
+      <div class="guide-section-title">Produtos recomendados</div>
+      <div class="guide-products">${productsHTML}</div>
+    </div>
+
+    <div class="guide-section">
+      <div class="guide-section-title">Próximos passos</div>
+      <ul class="guide-strategy-list">${stepsHTML}</ul>
+    </div>
+
+    ${stockSectionHTML}
+
+    ${moment ? `
+    <div class="guide-section">
+      <div class="guide-section-title">Momento do mercado (sua lista)</div>
+      ${momentHTML}
+    </div>` : ''}
+
+    <div class="guide-nav" style="margin-top:24px">
+      <button class="guide-action-btn guide-action-secondary" id="guideRestart">← Refazer</button>
+      <button class="guide-action-btn guide-action-primary" id="guideDone">Fechar</button>
+    </div>`;
+
+  $('guideRestart').addEventListener('click', () => { guideAnswers = {}; guideStep = 1; renderGuideStep(); });
+  $('guideDone').addEventListener('click', closeGuide);
+}
+
+$('guideBtn').addEventListener('click', openGuide);
+$('guideCloseX').addEventListener('click', closeGuide);
+$('guideOverlay').addEventListener('click', e => { if (e.target === $('guideOverlay')) closeGuide(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeGuide(); });
 
 init();
 </script>
