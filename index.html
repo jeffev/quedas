@@ -699,6 +699,8 @@
 <script>
 'use strict';
 
+const WORKER_BASE     = 'https://quedas-proxy.jeffev123.workers.dev';
+
 let period           = '1y';
 let busy             = false;
 let portfolioMode    = false;
@@ -716,6 +718,19 @@ let tableSort         = { col: 'drop', dir: 'asc' };
 
 const $     = id => document.getElementById(id);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+async function mapWithConcurrency(items, limit, fn) {
+  const results = new Array(items.length);
+  let next = 0;
+  async function worker() {
+    while (next < items.length) {
+      const i = next++;
+      results[i] = await fn(items[i], i);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return results;
+}
 
 function normalizeTicker(raw) {
   const t = raw.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -895,33 +910,13 @@ function renderSummary(items) {
 // ── API ────────────────────────────────────────────────────────────────────
 
 async function fetchJSON(url) {
-  const proxies = [
-    async () => {
-      const r = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
-      if (!r.ok) throw new Error();
-      const w = await r.json();
-      if (!w.contents) throw new Error();
-      return JSON.parse(w.contents);
-    },
-    async () => {
-      const r = await fetch(`https://thingproxy.freeboard.io/fetch/${url}`);
-      if (!r.ok) throw new Error();
-      return r.json();
-    },
-    async () => {
-      const r = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`);
-      if (!r.ok) throw new Error();
-      return r.json();
-    },
-  ];
-  for (const proxy of proxies) {
-    try { return await proxy(); } catch (_) {}
-  }
-  throw new Error('Todos os proxies falharam — tente novamente mais tarde');
+  const r = await fetch(url);
+  if (!r.ok) throw new Error('Falha ao buscar dados — tente novamente mais tarde');
+  return r.json();
 }
 
 async function fetchStock(ticker, p) {
-  const url  = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?range=${p}&interval=1d`;
+  const url  = `${WORKER_BASE}/chart/${encodeURIComponent(ticker)}?range=${p}`;
   const data = await fetchJSON(url);
 
   if (!data?.chart?.result?.[0])
@@ -953,8 +948,7 @@ async function fetchStock(ticker, p) {
 const FUND_TTL = 86_400_000;
 
 async function fetchFundamentals(ticker) {
-  const url  = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${ticker}`
-             + `?modules=summaryDetail,defaultKeyStatistics,financialData,assetProfile`;
+  const url  = `${WORKER_BASE}/fundamentals/${encodeURIComponent(ticker)}`;
   try {
     const data = await fetchJSON(url);
     const r    = data?.quoteSummary?.result?.[0];
@@ -1321,17 +1315,13 @@ async function renderTable(items) {
     });
   });
 
-  for (let i = 0; i < okItems.length; i++) {
+  await mapWithConcurrency(okItems, 6, async (item) => {
     if (tableGen !== gen) return;
-    const item     = okItems[i];
-    const wasCache = !!(fundamentalsCache[item.ticker] &&
-                        Date.now() - fundamentalsCache[item.ticker].fetchedAt < FUND_TTL);
-    const fund     = await getFundamentals(item.ticker);
+    const fund = await getFundamentals(item.ticker);
     if (tableGen !== gen) return;
     const row = $('list-container').querySelector(`tr[data-ticker="${item.ticker}"]`);
     if (row) row.outerHTML = tableRowHTML(item, fund, false);
-    if (!wasCache && i < okItems.length - 1) await sleep(300);
-  }
+  });
 }
 
 // ── carga principal ────────────────────────────────────────────────────────
@@ -1350,16 +1340,17 @@ async function load() {
   const items = tickers.map(t => ({ ticker: t, loading: true }));
   renderGrid(items);
 
-  for (let i = 0; i < tickers.length; i++) {
-    $('status').textContent = `Carregando ${display(tickers[i])} (${i + 1}/${tickers.length})…`;
+  let loaded = 0;
+  await mapWithConcurrency(tickers, 6, async (ticker, i) => {
     try {
-      items[i] = await fetchStock(tickers[i], period);
+      items[i] = await fetchStock(ticker, period);
     } catch (e) {
-      items[i] = { ticker: tickers[i], error: e.message };
+      items[i] = { ticker, error: e.message };
     }
+    loaded++;
+    $('status').textContent = `Carregando… (${loaded}/${tickers.length})`;
     renderGrid(items);
-    if (i < tickers.length - 1) await sleep(350);
-  }
+  });
 
   $('status').textContent = `Atualizado em ${new Date().toLocaleTimeString('pt-BR')} · ${tickers.length} ações`;
   busy = false;
