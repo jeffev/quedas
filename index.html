@@ -948,38 +948,16 @@ async function fetchStock(ticker, p) {
 const FUND_TTL = 86_400_000;
 
 async function fetchFundamentals(ticker) {
-  const url  = `${WORKER_BASE}/fundamentals/${encodeURIComponent(ticker)}`;
+  const url = `${WORKER_BASE}/fundamentals/${encodeURIComponent(ticker)}`;
   try {
     const data = await fetchJSON(url);
-    const r    = data?.quoteSummary?.result?.[0];
-    if (!r) return null;
+    if (!data?.ok || !data.fund) return null;
 
-    const sd = r.summaryDetail        || {};
-    const ks = r.defaultKeyStatistics || {};
-    const fd = r.financialData        || {};
-    const ap = r.assetProfile         || {};
-
-    const raw = (o, k) => o[k]?.raw ?? null;
-    const pct = (o, k) => { const v = o[k]?.raw; return v != null ? v * 100 : null; };
-
-    const fund = {
-      pe:        raw(sd, 'trailingPE'),
-      pb:        raw(ks, 'priceToBook'),
-      dy:        pct(sd, 'dividendYield'),
-      roe:       pct(fd, 'returnOnEquity'),
-      evEbitda:  raw(ks, 'enterpriseToEbitda'),
-      margin:    pct(fd, 'profitMargins'),
-      marketCap: raw(sd, 'marketCap'),
-      eps:       raw(ks, 'trailingEps'),
-      sector:    ap.sector || null,
-      payout:    pct(sd, 'payoutRatio'),
-    };
-
-    const entry = { data: fund, fetchedAt: Date.now() };
+    const entry = { data: data.fund, fetchedAt: Date.now() };
     fundamentalsCache[ticker] = entry;
     try { localStorage.setItem(`quedas_fund_${ticker}`, JSON.stringify(entry)); } catch (_) {}
 
-    return fund;
+    return data.fund;
   } catch (_) {
     return null;
   }
